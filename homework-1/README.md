@@ -1,18 +1,329 @@
 # 🏦 Homework 1: Banking Transactions API
 
-> **Student Name**: [Your Name]
-> **Date Submitted**: [Date]
-> **AI Tools Used**: [List tools, e.g., Claude Code, GitHub Copilot]
+> **Student**: Elena Chiperi · **Date**: 01.07.2026 · **AI tool**: Claude (Cowork / Claude Code)
+
+A minimal but production-quality REST API for banking transactions, built **test-first (TDD)**
+in **Java 17 + Spring Boot 3**, with a companion **Angular 22 + Microsoft Fluent** frontend for
+visual verification. The whole project was developed **with AI assistance**, following a
+deliberate workflow: engineer a strong prompt → write a TDD plan → implement cycle by cycle →
+verify locally → build the UI → polish. This README documents both the result and the
+AI‑assisted process.
 
 ---
 
-## 📋 Project Overview
+## 📋 Table of contents
 
-[Briefly describe your implementation - what you built and the key features]
+- [What was built](#-what-was-built)
+- [Features implemented](#-features-implemented)
+- [Architecture](#-architecture)
+- [The AI‑assisted workflow (our interaction)](#-the-ai-assisted-workflow-our-interaction)
+- [TDD progression — every cycle](#-tdd-progression--every-cycle)
+- [Screenshots](#-screenshots)
+- [Results](#-results)
+- [How to run](#-how-to-run)
+- [Repository layout](#-repository-layout)
+- [Reflections on using AI](#-reflections-on-using-ai)
 
+---
+
+## 🎯 What was built
+
+A banking transactions API with in‑memory storage (no database), fully covered by an automated
+test suite (**53 tests, all green**), plus a polished single‑page UI and operability tooling
+(health endpoint, interactive API reference). Everything starts with **one command**
+(`./start.sh`).
+
+## ✅ Features implemented
+
+**Task 1 — Core API**
+
+- `POST /transactions` — create a transaction (201, server‑assigned id/timestamp/status)
+- `GET /transactions` — list transactions
+- `GET /transactions/{id}` — fetch one (404 if missing)
+- `GET /accounts/{accountId}/balance` — computed account balance
+
+**Task 2 — Validation** (structured `400` errors)
+
+- amount positive, ≤ 2 decimals; accounts match `ACC-XXXXX`; ISO 4217 currency; valid type.
+  Errors return `{ "error": "Validation failed", "details": [{field, message}] }`.
+
+**Task 3 — History / filtering** on `GET /transactions`
+
+- `accountId` (from **or** to), `type`, inclusive `from`/`to` date range, combinable (AND).
+
+**Task 4 — All four optional features**
+
+- **A.** `GET /accounts/{id}/summary` — totals, count, most recent date
+- **B.** `GET /accounts/{id}/interest?rate=&days=` — simple interest `balance * rate * days / 365`
+- **C.** `GET /transactions/export?format=csv` — CSV download (`text/csv`, attachment)
+- **D.** Rate limiting — 100 requests/min per IP, `429` when exceeded
+
+**Operability**
+
+- **Health**: `GET /actuator/health` (Spring Boot Actuator)
+- **API reference**: `/docs` — rendered by **Scalar** (a modern alternative to Swagger UI) from
+  the OpenAPI spec at `/v3/api-docs`. The frontend topbar shows a live API‑status chip and a link.
+
+## 🏗️ Architecture
+
+Layered Spring Boot application; money is always `BigDecimal` (never float/double).
+
+```
+backend/src/main/java/com/example/banking/
+├── model/        Transaction (record) + Type/Status enums (lowercase JSON)
+├── repository/   In-memory ConcurrentHashMap store
+├── service/      TransactionService, BalanceService, SummaryService, InterestService, CsvExporter
+├── validation/   @ValidCurrency + CurrencyValidator (java.util.Currency)
+├── web/          Controllers + GlobalExceptionHandler (@RestControllerAdvice)
+└── config/       RateLimiter + RateLimitFilter, OpenApiConfig, WebConfig
+```
+
+The frontend (`frontend/`) is Angular 22 — standalone components, signals, the new control
+flow, zoneless change detection, lazy‑loaded routes, a typed API service over `HttpClient`, and
+a **Microsoft Fluent** design system implemented with CSS design tokens (acrylic glass, brand
+blue→cyan gradient, light/dark themes).
+
+---
+
+## 🤖 The AI‑assisted workflow (our interaction)
+
+The project was built collaboratively with Claude. Rather than asking the AI to "write the app,"
+the work followed a disciplined, verifiable loop. Here is the actual sequence of our interaction.
+
+### 1. Engineering a professional prompt
+
+We started by asking the AI to research **Anthropic's official prompt‑engineering best practices**
+and produce a top‑tier prompt for the assignment. The result is [`PROMPT.md`](PROMPT.md): a
+prompt structured with XML tags (`<role>`, `<context>`, `<requirements>`, `<examples>`,
+`<engineering_principles>`, `<definition_of_done>`, `<self_check>`), few‑shot request/response
+examples, and an appendix mapping each section to the technique it applies (with the source link).
+A parallel frontend prompt was produced as [`PROMPT-FRONTEND.md`](PROMPT-FRONTEND.md).
+
+### 2. A test‑first plan
+
+Before any code, we asked for a TDD implementation plan: [`PLAN-BACKEND-TDD.md`](PLAN-BACKEND-TDD.md).
+It defines the Red → Green → Refactor discipline, the test pyramid (unit + MockMvc web tests +
+one integration test), a `tests.json` tracker, and **nine ordered cycles**, each with the exact
+tests to write first.
+
+### 3. Cycle‑by‑cycle implementation (the core loop)
+
+Because the sandbox couldn't run Java/Maven, we agreed on a **cycle‑by‑cycle** rhythm:
+
+1. Claude writes the failing tests **and** the minimum code for one cycle.
+2. Claude statically checks the code (package/path, brace balance, `tests.json` validity).
+3. **I run `mvn test` locally** and report the result.
+4. On green, we move to the next cycle; on red, Claude fixes it.
+
+This kept a human in the loop as the verifier and made the AI's work auditable. Every cycle
+came back green on the first local run. During Cycle 3, Claude proactively caught a bug before I
+even ran it — a test helper named `post()` that shadowed MockMvc's static `post(...)` import —
+and renamed it.
+
+### 4. Refactors and structure
+
+Mid‑way we reorganized the backend into a dedicated `backend/` folder and added a rule to
+`PROMPT.md` that the backend must live there, keeping room for `frontend/` alongside.
+
+### 5. Building the frontend
+
+After the backend was complete, Claude scaffolded the Angular app with the official CLI, then
+implemented the API service, models, feature views, routing, and a Fluent design system —
+verifying it with `ng build` (clean compile).
+
+### 6. Design iterations
+
+We iterated on the UI several times: a full **"Microsoft 2030"** premium restyle (acrylic glass,
+gradient accents, glow, motion, light/dark), a nicer **disabled‑button** state (soft brand tint
+instead of gray text on the gradient), and equal‑width **filter fields** in the transactions row.
+
+### 7. Developer experience & operability
+
+Finally we added a **one‑command launcher** (`start.sh`) that runs backend + frontend, seeds
+sample data (`demo/seed.sh`), and opens the browser; a **health** endpoint via Actuator; and a
+modern **API reference** via Scalar at `/docs`, surfaced in the frontend topbar with a live
+status chip.
+
+---
+
+## 🔁 TDD progression — every cycle
+
+Each cycle was verified locally with `mvn test` before continuing. Test counts are cumulative.
+
+| Cycle | Focus | New tests | Total |
+|------:|-------|:---------:|:-----:|
+| 0 | Walking skeleton (`GET /transactions` → `[]`) | 2 | 2 |
+| 1 | Create & retrieve (model, repo, service, 404) | 7 | 9 |
+| 2 | Validation & structured errors | 12 | 21 |
+| 3 | Account balance | 7 | 28 |
+| 4 | History / filtering | 5 | 33 |
+| 5 | Account summary (Task 4A) | 4 | 37 |
+| 6 | Simple interest (Task 4B) | 7 | 44 |
+| 7 | CSV export (Task 4C) | 3 | 47 |
+| 8 | Rate limiting (Task 4D) | 2 | 49 |
+| 9 | End‑to‑end integration + hardening | 1 | 50 |
+| — | Health + API reference (ops) | 3 | **53** |
+
+Discipline throughout: never write code without a failing test; never weaken or delete a test to
+get to green; money as `BigDecimal`; a general solution, not one hard‑coded to the tests.
+
+---
+
+## 📸 Screenshots
+
+> Screenshot files live in [`docs/screenshots/`](docs/screenshots). Add the PNGs with the names
+> below and they will render here.
+
+### AI‑assisted development — the planning phase
+
+These six screenshots capture how the project was set up with Claude, from first prompt to the
+start of the TDD cycles.
+
+![Kick-off and research](docs/screenshots/1.png)
+*1 — Kick‑off: Claude reads the homework tasks and researches Anthropic's official
+prompt‑engineering guidance before writing anything.*
+
+![Delivering PROMPT.md](docs/screenshots/2.png)
+*2 — Claude delivers `PROMPT.md`: a professional prompt built from Anthropic best practices
+(Java + Spring Boot, all four Task 4 features, automated tests) with a technique→source mapping.*
+
+![Frontend prompt request](docs/screenshots/3.png)
+*3 — Next request: add an Angular 20 frontend with a Microsoft design. Claude researches
+Angular 20 + Fluent and starts drafting `PROMPT-FRONTEND.md`.*
+
+![Frontend prompt + TDD plan request](docs/screenshots/4.png)
+*4 — The frontend prompt's contents (standalone/signals/new control flow, Fluent 2, dev proxy),
+then the request to create a TDD implementation plan for the backend.*
+
+![The TDD plan](docs/screenshots/5.png)
+*5 — Claude produces `PLAN-BACKEND-TDD.md`: Red → Green → Refactor rules, the test pyramid, and
+ten ordered cycles with a `tests.json` tracker.*
+
+![Cycle-by-cycle workflow begins](docs/screenshots/6.png)
+*6 — Environment check and the agreed workflow: the sandbox can't run Maven, so we go
+cycle‑by‑cycle with local `mvn test`; Cycle 0 (walking skeleton) begins.*
+
+### AI‑assisted development — the TDD cycles
+
+The Red → Green → Refactor loop in action: Claude writes each cycle, I run `mvn test` locally
+and report back before we continue.
+
+![Cycle 0 delivered](docs/screenshots/7.png)
+*7 — Cycle 0 delivered: the walking skeleton (`pom.xml`, app, `GET /transactions` → `[]`, first
+two tests, `tests.json`). Claude notes it can't run Maven, so I verify locally.*
+
+![Reorganize into backend/ and continue](docs/screenshots/8.png)
+*8 — Cycle 0 passes (2/2). I ask to move the backend into a `backend/` folder and add that rule
+to `PROMPT.md`; Claude reorganizes, updates the plan/docs, then proceeds to Cycle 1.*
+
+![Cycle 1 implemented](docs/screenshots/9.png)
+*9 — Cycle 1 (create & retrieve) implemented test‑first: `Transaction` model, in‑memory
+repository, service, `POST`/`GET` endpoints and the 404 handler — expecting nine tests green.*
+
+![Cycle 2 begins](docs/screenshots/10.png)
+*10 — "9 tests passed — next." Cycle 2 begins: Bean Validation with a custom currency validator
+and the structured `400` error body. (The same rhythm continued through Cycle 9.)*
+
+### Tests
+
+![All tests passing](docs/screenshots/11.png)
+*11 — `mvn test` from `backend/`: all **53 tests pass** across the services, validators,
+controllers, and the end‑to‑end integration test — `Tests run: 53, Failures: 0, Errors: 0`,
+`BUILD SUCCESS`.*
+
+### Backend running
+
+![Backend started](docs/screenshots/12.png)
+*12 — `mvn spring-boot:run`: the Spring Boot application boots and serves the API —
+`Tomcat started on port 3000 (http)`, `Started BankingApplication`.*
+
+### API, docs & health
+
+![Sample API requests and responses](docs/screenshots/13.png)
+*13 — Sample requests via `curl`: the transactions list, an account balance, and an account
+summary returned as JSON.*
+
+![Scalar API reference](docs/screenshots/14.png)
+*14 — The interactive API reference at `/docs` (Scalar), listing the transaction and account
+endpoints generated from the OpenAPI spec.*
+
+![Health endpoint](docs/screenshots/15.png)
+*15 — `GET /actuator/health` returning `{"status":"UP", ...}` (Spring Boot Actuator).*
+
+### Frontend (Microsoft Fluent)
+
+![Transactions UI — dark](docs/screenshots/16.png)
+*16 — The transactions list (Microsoft Fluent, dark theme): acrylic glass surfaces, brand
+gradient, filters, status badges, and the live "API online" chip in the topbar.*
+
+![Transactions UI — light](docs/screenshots/17.png)
+*17 — The same view in the light theme, toggled from the topbar.*
+
+![Create transaction with validation](docs/screenshots/18.png)
+*18 — The "New transaction" form with validation: invalid account format and a non‑positive
+amount are flagged inline; the backend's `400 details[]` map to the same per‑field messages.*
+
+![Account tools](docs/screenshots/19.png)
+*19 — The Account tools page: balance, summary, and simple‑interest calculators, each backed by
+its own endpoint (Tasks 1, 4A, 4B).*
+
+![CSV export](docs/screenshots/20.png)
+*20 — "Export CSV" downloads the transactions and opens them in a spreadsheet — a header row
+plus one line per transaction (Task 4C).*
+
+---
+
+## 🏁 Results
+
+- **All 4 required task groups + all 4 optional features** implemented.
+- **53 automated tests**, all passing (`mvn test`).
+- Clean, layered, well‑documented backend; `BigDecimal` money; centralized error handling.
+- A polished **Angular 22 + Microsoft Fluent** UI that exercises every endpoint, verified with
+  `ng build`.
+- Operability: **health** endpoint and a modern **API reference** (Scalar).
+- **One‑command** startup (`./start.sh`) with sample‑data seeding.
+
+## ▶️ How to run
+
+The fastest path, from `homework-1/`:
+
+```bash
+./start.sh
+```
+
+This starts the backend (`:3000`) and frontend (`:4200`), seeds sample data, and opens the
+browser. Full manual instructions (prerequisites, tests, endpoints, health, docs) are in
+**[HOWTORUN.md](HOWTORUN.md)**.
+
+## 🗂️ Repository layout
+
+```
+homework-1/
+├── PROMPT.md               # the engineered backend prompt (Anthropic best practices)
+├── PROMPT-FRONTEND.md      # the engineered frontend prompt
+├── PLAN-BACKEND-TDD.md     # the TDD plan (9 cycles)
+├── README.md               # this file
+├── HOWTORUN.md             # run & test instructions
+├── start.sh                # one-command launcher
+├── demo/                   # run.sh, seed.sh, sample-requests.http, sample-data.json
+├── docs/screenshots/       # screenshots for this README
+├── backend/                # Spring Boot API (src, pom.xml, tests.json)
+└── frontend/               # Angular 22 + Fluent UI
+```
+
+## 💭 Reflections on using AI
+
+What worked well: forcing a **plan and tests first** made the AI's output verifiable and kept me
+in control — I decided *what* to build and reviewed each step, the AI figured out *how*. Writing
+a deliberate prompt from documented best practices paid off in the quality of the generated code.
+Keeping a human‑run `mvn test` after every cycle caught issues early and built trust.
+
+Challenges: the AI couldn't run Java/Maven in its environment, so verification happened on my
+machine — which turned out to be a feature, not a bug, for a homework about *understanding* the
+code. I read every change before accepting it rather than copy‑pasting blindly.
 
 <div align="center">
 
-*This project was completed as part of the AI-Assisted Development course.*
+*Completed as part of the GenAI & Agentic AI for Software Engineering course.*
 
 </div>
