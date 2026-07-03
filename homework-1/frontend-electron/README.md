@@ -24,12 +24,26 @@ inline validation (maps the backend's `400 details[]` to per-field messages); ac
 (balance, summary, simple interest); a live API-status chip (polls `/actuator/health`); and a
 light/dark theme toggle.
 
+## Tests
+
+The renderer's pure logic lives in `renderer/format.js` (a small **UMD** module: `money`,
+`shortId`, `fmtDate`, `mapValidationErrors`, `buildTransactionQuery`) so it can be unit-tested in
+Node while still loading as a plain `<script>` in the browser. `app.js` consumes it.
+
+```bash
+cd homework-1/frontend-electron
+npm test            # vitest run  (10 tests, green)
+```
+
+End-to-end coverage of this renderer (driven in a real browser against a live backend) lives in
+the Cypress suite at [`../e2e/`](../e2e).
+
 ## Notes
 
 - The renderer calls `http://localhost:3000` directly. Because the backends don't send CORS
   headers, the window is created with `webSecurity: false` (see `main.js`) — acceptable for a
   local desktop demo; don't do this in a production app.
 - Structure: `main.js` (main process → `BrowserWindow`), `renderer/` (`index.html`, `styles.css`,
-  `app.js` — plain HTML/CSS/JS, no framework).
+  `app.js` — plain HTML/CSS/JS, no framework; pure helpers in `format.js`).
 
 > Not runnable in the generation environment (Electron needs a GUI). Run `npm start` locally.

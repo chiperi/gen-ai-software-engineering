@@ -44,5 +44,26 @@ npm run build   # production build into dist/
 - **Fluent 2** tokens in `src/styles.css`; theme toggled via `data-theme` on `<html>`.
 - Functional **HTTP interceptor** (`core/rate-limit-interceptor.ts`) + toast service for UX.
 
+## Tests
+
+Unit tests run on **Vitest + jsdom** via Angular's `@angular/build:unit-test` builder — no
+browser needed, so they run headless anywhere:
+
+```bash
+cd homework-1/frontend
+npm install
+npm test -- --watch=false     # or: npx ng test --watch=false
+```
+
+**15 tests across 5 files, all green:**
+
+| Spec | Covers |
+|------|--------|
+| `services/transaction-api.spec.ts` | `TransactionApiService` via `HttpTestingController` — list + filters, create, balance, summary, interest, CSV blob |
+| `core/toast.service.spec.ts` | add toast, auto-dismiss after 4s, `dismiss(id)` |
+| `core/rate-limit-interceptor.spec.ts` | HTTP `429` → error toast + rethrow; other errors pass through |
+| `pages/transactions/create-transaction.spec.ts` | invalid-form guard, `400 details[]` → per-field errors, success → toast + navigate |
+| `app.spec.ts` | app shell bootstraps |
+
 > Note: this folder was scaffolded and type-checked with Angular CLI 22; `npm run build`
 > completes with no errors. Always run `npm install` on your own machine.

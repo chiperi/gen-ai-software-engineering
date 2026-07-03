@@ -37,11 +37,26 @@ same HTTP contract on port 3000, so the one Angular frontend runs against any of
 The API is also decoupled from the client — since it's plain REST/JSON, any frontend works
 against any backend. Three are included:
 
-| Client | Stack | Location |
-|---|---|---|
-| **Web app (primary)** | Angular 22 + Microsoft Fluent | [`frontend/`](frontend) |
-| Desktop | Electron (HTML/CSS/JS) | [`frontend-electron/`](frontend-electron) |
-| Web (mobile-friendly) | Flutter Web (Dart) | [`frontend-flutter/`](frontend-flutter) |
+| Client | Stack | Location | Tests |
+|---|---|---|---|
+| **Web app (primary)** | Angular 22 + Microsoft Fluent | [`frontend/`](frontend) | Vitest · **15** |
+| Desktop | Electron (HTML/CSS/JS) | [`frontend-electron/`](frontend-electron) | Vitest · **10** |
+| Web (mobile-friendly) | Flutter Web (Dart) | [`frontend-flutter/`](frontend-flutter) | `flutter_test` (web) |
+
+### Frontend & end-to-end tests
+
+Beyond the 153 backend tests, each frontend has its own suite, plus a browser-driven E2E project:
+
+| Suite | Runner | Count | Run |
+|---|---|---|---|
+| Angular ([`frontend/`](frontend)) | Vitest + jsdom (`ng test`) | 15 ✅ | `cd frontend && npm test -- --watch=false` |
+| Electron ([`frontend-electron/`](frontend-electron)) | Vitest | 10 ✅ | `cd frontend-electron && npm test` |
+| Flutter ([`frontend-flutter/`](frontend-flutter)) | `flutter_test` (web) | widget + unit | `cd frontend-flutter && flutter test --platform chrome` |
+| End-to-end ([`e2e/`](e2e)) | Cypress → live UI + backend | 3 specs | `cd e2e && npm install && npm run e2e` |
+
+Angular and Electron run headless anywhere; Flutter and Cypress need the Flutter SDK / Cypress
+binary (fetched on a normal network — run locally if your CI sandbox blocks them). See
+[`e2e/README.md`](e2e/README.md).
 
 ---
 
@@ -337,10 +352,12 @@ plus one line per transaction (Task 4C).*
 ## 🏁 Results
 
 - **All 4 required task groups + all 4 optional features** implemented.
-- **53 automated tests**, all passing (`mvn test`).
+- **53 automated tests**, all passing (`mvn test`) — **153 across all four backends**.
+- **Frontend & E2E tests**: Angular **15** (Vitest) and Electron **10** (Vitest) green, plus
+  Flutter `flutter_test` and a Cypress E2E suite ([`e2e/`](e2e)).
 - Clean, layered, well‑documented backend; `BigDecimal` money; centralized error handling.
 - A polished **Angular 22 + Microsoft Fluent** UI that exercises every endpoint, verified with
-  `ng build`.
+  `ng build` and unit tests.
 - Operability: **health** endpoint and a modern **API reference** (Scalar).
 - **One‑command** startup (`./run.sh`) — pick a backend + frontend — with sample‑data seeding.
 

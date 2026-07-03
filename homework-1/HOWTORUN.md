@@ -33,6 +33,28 @@ mvn test
 > First run downloads dependencies from Maven Central, so it needs internet access.
 > In IntelliJ you can also run the test classes directly (right-click → Run).
 
+The other backends: `cd backend-go && go test ./...` (50), `cd backend-fastapi && pytest -q`
+(32), `cd backend-dotnet && dotnet test` (18) — **153 backend tests** in total.
+
+## Run the frontend & end-to-end tests
+
+```bash
+# Angular — Vitest + jsdom (headless, no browser needed): 15 tests
+cd homework-1/frontend         && npm install && npm test -- --watch=false
+
+# Electron renderer — Vitest unit tests for the pure helpers: 10 tests
+cd homework-1/frontend-electron && npm test          # vitest run
+
+# Flutter — widget/unit tests (web platform, needs the Flutter SDK + Chrome)
+cd homework-1/frontend-flutter  && flutter test --platform chrome
+
+# Cypress end-to-end — drives the UI in a browser against a live backend on :3000
+cd homework-1/e2e               && npm install && npm run e2e
+```
+
+See [`e2e/README.md`](e2e/README.md) for the E2E details. The Cypress binary and Flutter SDK are
+fetched on a normal network; some locked-down CI sandboxes block them, so run those two locally.
+
 ## Run the application
 
 ```bash

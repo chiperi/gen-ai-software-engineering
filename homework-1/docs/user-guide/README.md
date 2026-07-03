@@ -199,6 +199,25 @@ curl http://localhost:3000/accounts/ACC-12345/balance
 
 ---
 
+## 10. Testing
+
+The project is tested at every layer. Backends carry **153 automated tests** (Java 53 · Go 50 ·
+FastAPI 32 · .NET 18), and every frontend has its own suite plus a browser-driven E2E project:
+
+| Layer | Runner | Run |
+|-------|--------|-----|
+| Backend (any) | JUnit / go test / pytest / xUnit | `mvn test` · `go test ./...` · `pytest -q` · `dotnet test` |
+| Angular | Vitest + jsdom | `cd frontend && npm test -- --watch=false` (15 tests) |
+| Electron | Vitest | `cd frontend-electron && npm test` (10 tests) |
+| Flutter | `flutter_test` (web) | `cd frontend-flutter && flutter test --platform chrome` |
+| End-to-end | Cypress | `cd e2e && npm install && npm run e2e` |
+
+Cypress details are in [`../../e2e/README.md`](../../e2e/README.md). Angular and Electron run
+headless anywhere; Flutter and Cypress need the Flutter SDK / Cypress binary (run locally if a CI
+sandbox blocks them).
+
+---
+
 ## Screenshot index
 
 | File | Shows |

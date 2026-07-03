@@ -37,6 +37,19 @@ maps the backend's `400 details[]` to per-field errors; account tools (balance, 
 interest); a live API-status chip (`/actuator/health`); and a light/dark theme toggle
 (Material 3, brand-blue seed color).
 
+## Tests
+
+Widget + unit tests live in `test/widget_test.dart`. Because `lib/main.dart` imports
+`dart:html` (for the CSV download), they run on the **web** platform:
+
+```bash
+cd homework-1/frontend-flutter
+flutter test --platform chrome
+```
+
+They cover `ApiResult.ok`, the app shell + navigation rail, the new-transaction form fields, and
+the account-tools cards. Requires the Flutter SDK (and Chrome).
+
 ## Notes on CORS
 
 Browsers enforce CORS, and the backends don't send CORS headers. For local development this app
