@@ -1,6 +1,9 @@
 const API = 'http://localhost:3000';
 const $ = (id) => document.getElementById(id);
 
+// Pure helpers live in format.js (loaded before this script) so they can be unit-tested.
+const { money, shortId, fmtDate, mapValidationErrors, buildTransactionQuery } = window.Fmt;
+
 function toast(text, kind = 'info') {
   const t = document.createElement('div');
   t.className = 'toast ' + kind;
@@ -16,10 +19,6 @@ async function api(path, options) {
   try { data = text ? JSON.parse(text) : null; } catch { data = text; }
   return { ok: res.ok, status: res.status, data };
 }
-
-const money = (n) => Number(n).toFixed(2);
-const shortId = (id) => (id || '').slice(0, 8) + '…';
-const fmtDate = (s) => (s ? new Date(s).toLocaleString() : '—');
 
 // ---- Navigation ----
 function showView(name) {
@@ -77,13 +76,13 @@ function renderTransactions(list) {
 }
 
 async function loadTransactions() {
-  const params = new URLSearchParams();
-  if ($('fAccount').value) params.set('accountId', $('fAccount').value);
-  if ($('fType').value) params.set('type', $('fType').value);
-  if ($('fFrom').value) params.set('from', $('fFrom').value);
-  if ($('fTo').value) params.set('to', $('fTo').value);
-  const q = params.toString();
-  const r = await api('/transactions' + (q ? '?' + q : ''));
+  const q = buildTransactionQuery({
+    accountId: $('fAccount').value,
+    type: $('fType').value,
+    from: $('fFrom').value,
+    to: $('fTo').value,
+  });
+  const r = await api('/transactions' + q);
   if (r.ok) renderTransactions(r.data);
   else $('txTable').innerHTML = '<div class="empty">Could not load transactions. Is the API running on :3000?</div>';
 }
@@ -109,8 +108,6 @@ $('exportBtn').addEventListener('click', async () => {
 function clearErrors() {
   ['eFrom', 'eTo', 'eAmount', 'eCurrency', 'eType'].forEach((id) => ($(id).textContent = ''));
 }
-const errFieldMap = { fromAccount: 'eFrom', toAccount: 'eTo', amount: 'eAmount', currency: 'eCurrency', type: 'eType' };
-
 $('createBtn').addEventListener('click', async () => {
   clearErrors();
   const body = {
@@ -131,9 +128,10 @@ $('createBtn').addEventListener('click', async () => {
     showView('transactions');
     loadTransactions();
   } else if (r.status === 400 && r.data && Array.isArray(r.data.details)) {
-    for (const d of r.data.details) {
-      const el = $(errFieldMap[d.field]);
-      if (el) el.textContent = d.message;
+    const errs = mapValidationErrors(r.data.details);
+    for (const [spanId, message] of Object.entries(errs)) {
+      const el = $(spanId);
+      if (el) el.textContent = message;
     }
   } else {
     toast('Could not create transaction.', 'error');
