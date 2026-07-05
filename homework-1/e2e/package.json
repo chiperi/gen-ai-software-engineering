@@ -1,0 +1,17 @@
+{
+  "name": "banking-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cypress end-to-end tests for the Banking Transactions web UI",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser chrome",
+    "serve:ui": "http-server ../frontend-electron/renderer -p 8080 -c-1",
+    "e2e": "start-server-and-test serve:ui http://localhost:8080 cypress:run"
+  },
+  "devDependencies": {
+    "cypress": "^15.0.0",
+    "http-server": "^14.1.1",
+    "start-server-and-test": "^2.0.0"
+  }
+}

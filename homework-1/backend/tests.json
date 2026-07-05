@@ -1,0 +1,68 @@
+{
+  "description": "TDD test tracker for the Banking API. status: written | passing | pending. Do NOT delete or weaken tests to make the build pass.",
+  "tests": [
+    {"cycle": 0, "name": "contextLoads", "class": "BankingApplicationTests", "status": "written"},
+    {"cycle": 0, "name": "getTransactions_whenEmpty_returns200AndEmptyArray", "class": "TransactionControllerTest", "status": "written"},
+
+    {"cycle": 1, "name": "createTransaction_validBody_returns201WithGeneratedFields", "class": "TransactionControllerTest", "status": "written"},
+    {"cycle": 1, "name": "getTransactions_afterCreate_returnsListWithIt", "class": "TransactionControllerTest", "status": "written"},
+    {"cycle": 1, "name": "getTransactionById_existing_returns200WithTransaction", "class": "TransactionControllerTest", "status": "written"},
+    {"cycle": 1, "name": "getTransactionById_unknown_returns404", "class": "TransactionControllerTest", "status": "written"},
+    {"cycle": 1, "name": "create_assignsGeneratedFields", "class": "TransactionServiceTest", "status": "written"},
+    {"cycle": 1, "name": "findById_existing_returnsTransaction", "class": "TransactionServiceTest", "status": "written"},
+    {"cycle": 1, "name": "findById_unknown_throws", "class": "TransactionServiceTest", "status": "written"},
+
+    {"cycle": 2, "name": "createTransaction_negativeAmount_returns400", "class": "TransactionValidationTest", "status": "written"},
+    {"cycle": 2, "name": "createTransaction_amountMoreThanTwoDecimals_returns400", "class": "TransactionValidationTest", "status": "written"},
+    {"cycle": 2, "name": "createTransaction_badAccountFormat_returns400", "class": "TransactionValidationTest", "status": "written"},
+    {"cycle": 2, "name": "createTransaction_invalidCurrency_returns400", "class": "TransactionValidationTest", "status": "written"},
+    {"cycle": 2, "name": "createTransaction_invalidType_returns400", "class": "TransactionValidationTest", "status": "written"},
+    {"cycle": 2, "name": "createTransaction_multipleErrors_returnsAllDetails", "class": "TransactionValidationTest", "status": "written"},
+    {"cycle": 2, "name": "validRequest_hasNoViolations", "class": "TransactionRequestValidationTest", "status": "written"},
+    {"cycle": 2, "name": "negativeAmount_violatesAmount", "class": "TransactionRequestValidationTest", "status": "written"},
+    {"cycle": 2, "name": "tooManyDecimals_violatesAmount", "class": "TransactionRequestValidationTest", "status": "written"},
+    {"cycle": 2, "name": "badAccountFormat_violatesFromAccount", "class": "TransactionRequestValidationTest", "status": "written"},
+    {"cycle": 2, "name": "invalidCurrency_violatesCurrency", "class": "TransactionRequestValidationTest", "status": "written"},
+    {"cycle": 2, "name": "invalidType_violatesType", "class": "TransactionRequestValidationTest", "status": "written"},
+
+    {"cycle": 3, "name": "deposit_increasesToAccount", "class": "BalanceServiceTest", "status": "written"},
+    {"cycle": 3, "name": "withdrawal_decreasesFromAccount", "class": "BalanceServiceTest", "status": "written"},
+    {"cycle": 3, "name": "transfer_movesAmount", "class": "BalanceServiceTest", "status": "written"},
+    {"cycle": 3, "name": "onlyCompletedTransactionsCount", "class": "BalanceServiceTest", "status": "written"},
+    {"cycle": 3, "name": "unknownAccount_isZero", "class": "BalanceServiceTest", "status": "written"},
+    {"cycle": 3, "name": "getBalance_existingAccount_returns200WithComputedBalance", "class": "AccountControllerTest", "status": "written"},
+    {"cycle": 3, "name": "getBalance_unknownAccount_returnsZero", "class": "AccountControllerTest", "status": "written"},
+
+    {"cycle": 4, "name": "list_filterByAccountId_matchesFromOrTo", "class": "TransactionFilterTest", "status": "written"},
+    {"cycle": 4, "name": "list_filterByType_returnsOnlyThatType", "class": "TransactionFilterTest", "status": "written"},
+    {"cycle": 4, "name": "list_filterByDateRange_inclusiveBounds", "class": "TransactionFilterTest", "status": "written"},
+    {"cycle": 4, "name": "list_combinedFilters_appliesAllAsAnd", "class": "TransactionFilterTest", "status": "written"},
+    {"cycle": 4, "name": "list_noMatches_returnsEmptyArray", "class": "TransactionFilterTest", "status": "written"},
+
+    {"cycle": 5, "name": "summary_returnsTotalsCountAndMostRecentDate", "class": "SummaryServiceTest", "status": "written"},
+    {"cycle": 5, "name": "summary_emptyAccount_returnsZerosAndNullDate", "class": "SummaryServiceTest", "status": "written"},
+    {"cycle": 5, "name": "getSummary_returnsAggregates", "class": "AccountControllerTest", "status": "written"},
+    {"cycle": 5, "name": "getSummary_emptyAccount_returnsZeros", "class": "AccountControllerTest", "status": "written"},
+
+    {"cycle": 6, "name": "interest_isBalanceTimesRateTimesDaysOver365", "class": "InterestServiceTest", "status": "written"},
+    {"cycle": 6, "name": "interest_zeroBalance_returnsZero", "class": "InterestServiceTest", "status": "written"},
+    {"cycle": 6, "name": "interest_nonPositiveDays_throws", "class": "InterestServiceTest", "status": "written"},
+    {"cycle": 6, "name": "interest_negativeRate_throws", "class": "InterestServiceTest", "status": "written"},
+    {"cycle": 6, "name": "getInterest_returnsInputsAndResult", "class": "AccountControllerTest", "status": "written"},
+    {"cycle": 6, "name": "getInterest_missingParam_returns400", "class": "AccountControllerTest", "status": "written"},
+    {"cycle": 6, "name": "getInterest_nonPositiveDays_returns400", "class": "AccountControllerTest", "status": "written"},
+
+    {"cycle": 7, "name": "exportCsv_returns200_textCsv_withAttachmentHeader", "class": "TransactionExportTest", "status": "written"},
+    {"cycle": 7, "name": "exportCsv_bodyHasHeaderRowAndOneLinePerTransaction", "class": "TransactionExportTest", "status": "written"},
+    {"cycle": 7, "name": "exportCsv_unsupportedFormat_returns400", "class": "TransactionExportTest", "status": "written"},
+
+    {"cycle": 8, "name": "withinLimit_requestsSucceed", "class": "RateLimitTest", "status": "written"},
+    {"cycle": 8, "name": "overLimit_returns429WithJsonBody", "class": "RateLimitTest", "status": "written"},
+
+    {"cycle": 9, "name": "endToEnd_create_balance_summary_consistent", "class": "BankingIntegrationTest", "status": "written"},
+
+    {"cycle": 10, "name": "health_returnsUp", "class": "DocsAndHealthTest", "status": "written"},
+    {"cycle": 10, "name": "openApiSpec_isAvailable", "class": "DocsAndHealthTest", "status": "written"},
+    {"cycle": 10, "name": "docs_redirectsToReference", "class": "DocsAndHealthTest", "status": "written"}
+  ]
+}
