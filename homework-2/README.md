@@ -1,5 +1,7 @@
-# 🎧 Homework 2: Intelligent Customer Support System
+# 🏦 Homework 1: Banking Transactions API
 
+> **Student Name**: Elena Chiperi
+> **Date Submitted**: 06.07.2026
 > **AI Tools Used**: Claude Code (Opus 4.8)
 > A support-ticket management system: multi-format import, automatic
 > classification, a full test suite, and a React front-end.
