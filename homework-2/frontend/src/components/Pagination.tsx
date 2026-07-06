@@ -9,7 +9,7 @@ interface Props {
   onPageSize: (n: number) => void;
 }
 
-const PAGE_SIZES = [20, 40, 60, 80, 100];
+const PAGE_SIZES = [10, 15, 20, 40, 60, 80, 100];
 
 // Windowed page list with ellipses, e.g. 1 … 4 5 [6] 7 8 … 20
 function pageItems(page: number, pageCount: number): (number | "…")[] {
