@@ -1,0 +1,16 @@
+[
+  {
+    "customer_id": "CUST-9100",
+    "customer_email": "bad@example.com",
+    "customer_name": "Short Desc",
+    "subject": "Bad row",
+    "description": "short"
+  },
+  {
+    "customer_id": "CUST-9101",
+    "customer_email": "fine@example.com",
+    "customer_name": "Fine Row",
+    "subject": "Valid row",
+    "description": "This row is valid and should import without any issue whatsoever."
+  }
+]

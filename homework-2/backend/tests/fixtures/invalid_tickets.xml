@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tickets>
+  <ticket>
+    <customer_id>CUST-800</customer_id>
+    <customer_email>bad-email</customer_email>
+    <customer_name>Bad One</customer_name>
+    <subject>Too short desc</subject>
+    <description>short</description>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-801</customer_id>
+    <customer_email>ok@example.com</customer_email>
+    <customer_name>Fine Two</customer_name>
+    <subject>Valid xml row</subject>
+    <description>This XML row is valid and should be imported successfully without issues.</description>
+    <metadata>
+      <source>phone</source>
+    </metadata>
+  </ticket>
+</tickets>

@@ -1,0 +1,449 @@
+<?xml version="1.0" ?>
+<tickets>
+  <ticket>
+    <customer_id>CUST-1000</customer_id>
+    <customer_email>user0@example.com</customer_email>
+    <customer_name>Alice Doe</customer_name>
+    <subject>Cannot log in to my account</subject>
+    <description>I can't access my account, my password reset link is broken. This is critical.</description>
+    <tags>
+      <tag>login</tag>
+      <tag>password</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1001</customer_id>
+    <customer_email>user1@example.com</customer_email>
+    <customer_name>Bob Smith</customer_name>
+    <subject>2FA codes not arriving</subject>
+    <description>My two-factor authentication codes never arrive, this is a security problem.</description>
+    <tags>
+      <tag>2fa</tag>
+      <tag>security</tag>
+    </tags>
+    <metadata>
+      <source>email</source>
+      <device_type>mobile</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1002</customer_id>
+    <customer_email>user2@example.com</customer_email>
+    <customer_name>Carol Jones</customer_name>
+    <subject>Locked out after password change</subject>
+    <description>I changed my password and now I am locked out and cannot sign in.</description>
+    <tags>
+      <tag>password</tag>
+      <tag>login</tag>
+    </tags>
+    <metadata>
+      <source>chat</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1003</customer_id>
+    <customer_email>user3@example.com</customer_email>
+    <customer_name>Dave Lee</customer_name>
+    <subject>App crashes on report export</subject>
+    <description>The application crashes with an exception every time I export a report.</description>
+    <tags>
+      <tag>crash</tag>
+      <tag>error</tag>
+    </tags>
+    <metadata>
+      <source>api</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1004</customer_id>
+    <customer_email>user4@example.com</customer_email>
+    <customer_name>Eve Adams</customer_name>
+    <subject>500 error on dashboard</subject>
+    <description>The dashboard shows a 500 server error and the whole page is down.</description>
+    <tags>
+      <tag>error</tag>
+      <tag>down</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>tablet</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1005</customer_id>
+    <customer_email>user5@example.com</customer_email>
+    <customer_name>Frank Moore</customer_name>
+    <subject>Sync fails intermittently</subject>
+    <description>Data sync fails with a timeout, this is blocking my team from working.</description>
+    <tags>
+      <tag>timeout</tag>
+      <tag>blocking</tag>
+    </tags>
+    <metadata>
+      <source>email</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1006</customer_id>
+    <customer_email>user6@example.com</customer_email>
+    <customer_name>Grace Kim</customer_name>
+    <subject>Refund for double charge</subject>
+    <description>I was charged twice for my subscription invoice, please issue a refund asap.</description>
+    <tags>
+      <tag>refund</tag>
+      <tag>invoice</tag>
+      <tag>asap</tag>
+    </tags>
+    <metadata>
+      <source>email</source>
+      <device_type>mobile</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1007</customer_id>
+    <customer_email>user7@example.com</customer_email>
+    <customer_name>Heidi North</customer_name>
+    <subject>Invoice missing line items</subject>
+    <description>My latest invoice is missing several line items and the payment total is wrong.</description>
+    <tags>
+      <tag>invoice</tag>
+      <tag>payment</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1008</customer_id>
+    <customer_email>user8@example.com</customer_email>
+    <customer_name>Ivan Petrov</customer_name>
+    <subject>Update credit card on file</subject>
+    <description>I need to update the credit card used for my subscription billing.</description>
+    <tags>
+      <tag>credit card</tag>
+      <tag>billing</tag>
+    </tags>
+    <metadata>
+      <source>phone</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1009</customer_id>
+    <customer_email>user9@example.com</customer_email>
+    <customer_name>Judy Blume</customer_name>
+    <subject>Please add dark mode</subject>
+    <description>It would be nice to please add a dark mode theme, a great enhancement suggestion.</description>
+    <tags>
+      <tag>feature</tag>
+      <tag>suggestion</tag>
+    </tags>
+    <metadata>
+      <source>chat</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1010</customer_id>
+    <customer_email>user10@example.com</customer_email>
+    <customer_name>Alice Doe</customer_name>
+    <subject>Bulk export feature</subject>
+    <description>Feature request: please add a bulk export option, it would improve my workflow.</description>
+    <tags>
+      <tag>feature request</tag>
+      <tag>improve</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>tablet</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1011</customer_id>
+    <customer_email>user11@example.com</customer_email>
+    <customer_name>Bob Smith</customer_name>
+    <subject>Keyboard shortcuts wish</subject>
+    <description>I wish there were keyboard shortcuts, this enhancement would be nice to have.</description>
+    <tags>
+      <tag>enhancement</tag>
+      <tag>wish</tag>
+    </tags>
+    <metadata>
+      <source>api</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1012</customer_id>
+    <customer_email>user12@example.com</customer_email>
+    <customer_name>Carol Jones</customer_name>
+    <subject>Bug: totals miscalculated</subject>
+    <description>There is a bug, the totals are miscalculated. Steps to reproduce are attached.</description>
+    <tags>
+      <tag>bug</tag>
+      <tag>steps to reproduce</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1013</customer_id>
+    <customer_email>user13@example.com</customer_email>
+    <customer_name>Dave Lee</customer_name>
+    <subject>Regression after update</subject>
+    <description>A regression appeared after the last update, this defect blocks checkout.</description>
+    <tags>
+      <tag>regression</tag>
+      <tag>defect</tag>
+      <tag>blocking</tag>
+    </tags>
+    <metadata>
+      <source>email</source>
+      <device_type>mobile</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1014</customer_id>
+    <customer_email>user14@example.com</customer_email>
+    <customer_name>Eve Adams</customer_name>
+    <subject>Glitch in date picker</subject>
+    <description>Minor glitch in the date picker, a cosmetic bug of low importance.</description>
+    <tags>
+      <tag>glitch</tag>
+      <tag>bug</tag>
+      <tag>cosmetic</tag>
+    </tags>
+    <metadata>
+      <source>chat</source>
+      <device_type>tablet</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1015</customer_id>
+    <customer_email>user15@example.com</customer_email>
+    <customer_name>Frank Moore</customer_name>
+    <subject>General question about limits</subject>
+    <description>I have a general question about the usage limits on my current plan.</description>
+    <tags/>
+    <metadata>
+      <source>web_form</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1016</customer_id>
+    <customer_email>user16@example.com</customer_email>
+    <customer_name>Grace Kim</customer_name>
+    <subject>How do I invite teammates</subject>
+    <description>Can you explain how I invite teammates to my workspace? Thanks in advance.</description>
+    <tags/>
+    <metadata>
+      <source>email</source>
+      <device_type>mobile</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1017</customer_id>
+    <customer_email>user17@example.com</customer_email>
+    <customer_name>Heidi North</customer_name>
+    <subject>Feedback on onboarding</subject>
+    <description>Just sharing some general feedback about the onboarding experience overall.</description>
+    <tags/>
+    <metadata>
+      <source>chat</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1018</customer_id>
+    <customer_email>user18@example.com</customer_email>
+    <customer_name>Ivan Petrov</customer_name>
+    <subject>Production is down now</subject>
+    <description>Production is down and this is a critical outage affecting all our users.</description>
+    <tags>
+      <tag>production down</tag>
+      <tag>critical</tag>
+    </tags>
+    <metadata>
+      <source>phone</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1019</customer_id>
+    <customer_email>user19@example.com</customer_email>
+    <customer_name>Judy Blume</customer_name>
+    <subject>Important billing discrepancy</subject>
+    <description>Important: there is a billing discrepancy on my invoice that is blocking payroll.</description>
+    <tags>
+      <tag>important</tag>
+      <tag>invoice</tag>
+      <tag>blocking</tag>
+    </tags>
+    <metadata>
+      <source>email</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1020</customer_id>
+    <customer_email>user20@example.com</customer_email>
+    <customer_name>Alice Doe</customer_name>
+    <subject>Cannot log in to my account</subject>
+    <description>I can't access my account, my password reset link is broken. This is critical.</description>
+    <tags>
+      <tag>login</tag>
+      <tag>password</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1021</customer_id>
+    <customer_email>user21@example.com</customer_email>
+    <customer_name>Bob Smith</customer_name>
+    <subject>2FA codes not arriving</subject>
+    <description>My two-factor authentication codes never arrive, this is a security problem.</description>
+    <tags>
+      <tag>2fa</tag>
+      <tag>security</tag>
+    </tags>
+    <metadata>
+      <source>email</source>
+      <device_type>mobile</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1022</customer_id>
+    <customer_email>user22@example.com</customer_email>
+    <customer_name>Carol Jones</customer_name>
+    <subject>Locked out after password change</subject>
+    <description>I changed my password and now I am locked out and cannot sign in.</description>
+    <tags>
+      <tag>password</tag>
+      <tag>login</tag>
+    </tags>
+    <metadata>
+      <source>chat</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1023</customer_id>
+    <customer_email>user23@example.com</customer_email>
+    <customer_name>Dave Lee</customer_name>
+    <subject>App crashes on report export</subject>
+    <description>The application crashes with an exception every time I export a report.</description>
+    <tags>
+      <tag>crash</tag>
+      <tag>error</tag>
+    </tags>
+    <metadata>
+      <source>api</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1024</customer_id>
+    <customer_email>user24@example.com</customer_email>
+    <customer_name>Eve Adams</customer_name>
+    <subject>500 error on dashboard</subject>
+    <description>The dashboard shows a 500 server error and the whole page is down.</description>
+    <tags>
+      <tag>error</tag>
+      <tag>down</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>tablet</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1025</customer_id>
+    <customer_email>user25@example.com</customer_email>
+    <customer_name>Frank Moore</customer_name>
+    <subject>Sync fails intermittently</subject>
+    <description>Data sync fails with a timeout, this is blocking my team from working.</description>
+    <tags>
+      <tag>timeout</tag>
+      <tag>blocking</tag>
+    </tags>
+    <metadata>
+      <source>email</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1026</customer_id>
+    <customer_email>user26@example.com</customer_email>
+    <customer_name>Grace Kim</customer_name>
+    <subject>Refund for double charge</subject>
+    <description>I was charged twice for my subscription invoice, please issue a refund asap.</description>
+    <tags>
+      <tag>refund</tag>
+      <tag>invoice</tag>
+      <tag>asap</tag>
+    </tags>
+    <metadata>
+      <source>email</source>
+      <device_type>mobile</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1027</customer_id>
+    <customer_email>user27@example.com</customer_email>
+    <customer_name>Heidi North</customer_name>
+    <subject>Invoice missing line items</subject>
+    <description>My latest invoice is missing several line items and the payment total is wrong.</description>
+    <tags>
+      <tag>invoice</tag>
+      <tag>payment</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1028</customer_id>
+    <customer_email>user28@example.com</customer_email>
+    <customer_name>Ivan Petrov</customer_name>
+    <subject>Update credit card on file</subject>
+    <description>I need to update the credit card used for my subscription billing.</description>
+    <tags>
+      <tag>credit card</tag>
+      <tag>billing</tag>
+    </tags>
+    <metadata>
+      <source>phone</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-1029</customer_id>
+    <customer_email>user29@example.com</customer_email>
+    <customer_name>Judy Blume</customer_name>
+    <subject>Please add dark mode</subject>
+    <description>It would be nice to please add a dark mode theme, a great enhancement suggestion.</description>
+    <tags>
+      <tag>feature</tag>
+      <tag>suggestion</tag>
+    </tags>
+    <metadata>
+      <source>chat</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+</tickets>

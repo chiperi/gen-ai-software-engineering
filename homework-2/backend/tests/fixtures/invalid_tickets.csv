@@ -1,0 +1,4 @@
+customer_id,customer_email,customer_name,subject,description,tags,source,device_type
+CUST-200,not-an-email,Eve Adams,Short,too short,bug,web_form,desktop
+CUST-201,frank@example.com,Frank Moore,,The description is fine but the subject is empty which is invalid.,bug,email,mobile
+CUST-202,grace@example.com,Grace Kim,Valid subject here,This row is completely valid and should import without any problems at all.,ok,web_form,desktop

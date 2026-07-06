@@ -1,0 +1,51 @@
+customer_id,customer_email,customer_name,subject,description,tags,source,device_type
+CUST-1000,user0@example.com,Alice Doe,Cannot log in to my account,"I can't access my account, my password reset link is broken. This is critical.","login,password",web_form,desktop
+CUST-1001,user1@example.com,Bob Smith,2FA codes not arriving,"My two-factor authentication codes never arrive, this is a security problem.","2fa,security",email,mobile
+CUST-1002,user2@example.com,Carol Jones,Locked out after password change,I changed my password and now I am locked out and cannot sign in.,"password,login",chat,desktop
+CUST-1003,user3@example.com,Dave Lee,App crashes on report export,The application crashes with an exception every time I export a report.,"crash,error",api,desktop
+CUST-1004,user4@example.com,Eve Adams,500 error on dashboard,The dashboard shows a 500 server error and the whole page is down.,"error,down",web_form,tablet
+CUST-1005,user5@example.com,Frank Moore,Sync fails intermittently,"Data sync fails with a timeout, this is blocking my team from working.","timeout,blocking",email,desktop
+CUST-1006,user6@example.com,Grace Kim,Refund for double charge,"I was charged twice for my subscription invoice, please issue a refund asap.","refund,invoice,asap",email,mobile
+CUST-1007,user7@example.com,Heidi North,Invoice missing line items,My latest invoice is missing several line items and the payment total is wrong.,"invoice,payment",web_form,desktop
+CUST-1008,user8@example.com,Ivan Petrov,Update credit card on file,I need to update the credit card used for my subscription billing.,"credit card,billing",phone,desktop
+CUST-1009,user9@example.com,Judy Blume,Please add dark mode,"It would be nice to please add a dark mode theme, a great enhancement suggestion.","feature,suggestion",chat,desktop
+CUST-1010,user10@example.com,Alice Doe,Bulk export feature,"Feature request: please add a bulk export option, it would improve my workflow.","feature request,improve",web_form,tablet
+CUST-1011,user11@example.com,Bob Smith,Keyboard shortcuts wish,"I wish there were keyboard shortcuts, this enhancement would be nice to have.","enhancement,wish",api,desktop
+CUST-1012,user12@example.com,Carol Jones,Bug: totals miscalculated,"There is a bug, the totals are miscalculated. Steps to reproduce are attached.","bug,steps to reproduce",web_form,desktop
+CUST-1013,user13@example.com,Dave Lee,Regression after update,"A regression appeared after the last update, this defect blocks checkout.","regression,defect,blocking",email,mobile
+CUST-1014,user14@example.com,Eve Adams,Glitch in date picker,"Minor glitch in the date picker, a cosmetic bug of low importance.","glitch,bug,cosmetic",chat,tablet
+CUST-1015,user15@example.com,Frank Moore,General question about limits,I have a general question about the usage limits on my current plan.,,web_form,desktop
+CUST-1016,user16@example.com,Grace Kim,How do I invite teammates,Can you explain how I invite teammates to my workspace? Thanks in advance.,,email,mobile
+CUST-1017,user17@example.com,Heidi North,Feedback on onboarding,Just sharing some general feedback about the onboarding experience overall.,,chat,desktop
+CUST-1018,user18@example.com,Ivan Petrov,Production is down now,Production is down and this is a critical outage affecting all our users.,"production down,critical",phone,desktop
+CUST-1019,user19@example.com,Judy Blume,Important billing discrepancy,Important: there is a billing discrepancy on my invoice that is blocking payroll.,"important,invoice,blocking",email,desktop
+CUST-1020,user20@example.com,Alice Doe,Cannot log in to my account,"I can't access my account, my password reset link is broken. This is critical.","login,password",web_form,desktop
+CUST-1021,user21@example.com,Bob Smith,2FA codes not arriving,"My two-factor authentication codes never arrive, this is a security problem.","2fa,security",email,mobile
+CUST-1022,user22@example.com,Carol Jones,Locked out after password change,I changed my password and now I am locked out and cannot sign in.,"password,login",chat,desktop
+CUST-1023,user23@example.com,Dave Lee,App crashes on report export,The application crashes with an exception every time I export a report.,"crash,error",api,desktop
+CUST-1024,user24@example.com,Eve Adams,500 error on dashboard,The dashboard shows a 500 server error and the whole page is down.,"error,down",web_form,tablet
+CUST-1025,user25@example.com,Frank Moore,Sync fails intermittently,"Data sync fails with a timeout, this is blocking my team from working.","timeout,blocking",email,desktop
+CUST-1026,user26@example.com,Grace Kim,Refund for double charge,"I was charged twice for my subscription invoice, please issue a refund asap.","refund,invoice,asap",email,mobile
+CUST-1027,user27@example.com,Heidi North,Invoice missing line items,My latest invoice is missing several line items and the payment total is wrong.,"invoice,payment",web_form,desktop
+CUST-1028,user28@example.com,Ivan Petrov,Update credit card on file,I need to update the credit card used for my subscription billing.,"credit card,billing",phone,desktop
+CUST-1029,user29@example.com,Judy Blume,Please add dark mode,"It would be nice to please add a dark mode theme, a great enhancement suggestion.","feature,suggestion",chat,desktop
+CUST-1030,user30@example.com,Alice Doe,Bulk export feature,"Feature request: please add a bulk export option, it would improve my workflow.","feature request,improve",web_form,tablet
+CUST-1031,user31@example.com,Bob Smith,Keyboard shortcuts wish,"I wish there were keyboard shortcuts, this enhancement would be nice to have.","enhancement,wish",api,desktop
+CUST-1032,user32@example.com,Carol Jones,Bug: totals miscalculated,"There is a bug, the totals are miscalculated. Steps to reproduce are attached.","bug,steps to reproduce",web_form,desktop
+CUST-1033,user33@example.com,Dave Lee,Regression after update,"A regression appeared after the last update, this defect blocks checkout.","regression,defect,blocking",email,mobile
+CUST-1034,user34@example.com,Eve Adams,Glitch in date picker,"Minor glitch in the date picker, a cosmetic bug of low importance.","glitch,bug,cosmetic",chat,tablet
+CUST-1035,user35@example.com,Frank Moore,General question about limits,I have a general question about the usage limits on my current plan.,,web_form,desktop
+CUST-1036,user36@example.com,Grace Kim,How do I invite teammates,Can you explain how I invite teammates to my workspace? Thanks in advance.,,email,mobile
+CUST-1037,user37@example.com,Heidi North,Feedback on onboarding,Just sharing some general feedback about the onboarding experience overall.,,chat,desktop
+CUST-1038,user38@example.com,Ivan Petrov,Production is down now,Production is down and this is a critical outage affecting all our users.,"production down,critical",phone,desktop
+CUST-1039,user39@example.com,Judy Blume,Important billing discrepancy,Important: there is a billing discrepancy on my invoice that is blocking payroll.,"important,invoice,blocking",email,desktop
+CUST-1040,user40@example.com,Alice Doe,Cannot log in to my account,"I can't access my account, my password reset link is broken. This is critical.","login,password",web_form,desktop
+CUST-1041,user41@example.com,Bob Smith,2FA codes not arriving,"My two-factor authentication codes never arrive, this is a security problem.","2fa,security",email,mobile
+CUST-1042,user42@example.com,Carol Jones,Locked out after password change,I changed my password and now I am locked out and cannot sign in.,"password,login",chat,desktop
+CUST-1043,user43@example.com,Dave Lee,App crashes on report export,The application crashes with an exception every time I export a report.,"crash,error",api,desktop
+CUST-1044,user44@example.com,Eve Adams,500 error on dashboard,The dashboard shows a 500 server error and the whole page is down.,"error,down",web_form,tablet
+CUST-1045,user45@example.com,Frank Moore,Sync fails intermittently,"Data sync fails with a timeout, this is blocking my team from working.","timeout,blocking",email,desktop
+CUST-1046,user46@example.com,Grace Kim,Refund for double charge,"I was charged twice for my subscription invoice, please issue a refund asap.","refund,invoice,asap",email,mobile
+CUST-1047,user47@example.com,Heidi North,Invoice missing line items,My latest invoice is missing several line items and the payment total is wrong.,"invoice,payment",web_form,desktop
+CUST-1048,user48@example.com,Ivan Petrov,Update credit card on file,I need to update the credit card used for my subscription billing.,"credit card,billing",phone,desktop
+CUST-1049,user49@example.com,Judy Blume,Please add dark mode,"It would be nice to please add a dark mode theme, a great enhancement suggestion.","feature,suggestion",chat,desktop

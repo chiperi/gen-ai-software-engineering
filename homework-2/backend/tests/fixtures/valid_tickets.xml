@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tickets>
+  <ticket>
+    <customer_id>CUST-500</customer_id>
+    <customer_email>judy@example.com</customer_email>
+    <customer_name>Judy Blume</customer_name>
+    <subject>Blocking bug in checkout</subject>
+    <description>There is a blocking bug in the checkout flow, steps to reproduce attached.</description>
+    <tags>
+      <tag>bug</tag>
+      <tag>checkout</tag>
+    </tags>
+    <metadata>
+      <source>web_form</source>
+      <device_type>desktop</device_type>
+    </metadata>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-501</customer_id>
+    <customer_email>karl@example.com</customer_email>
+    <customer_name>Karl Ober</customer_name>
+    <subject>Minor cosmetic issue</subject>
+    <description>A minor cosmetic misalignment on the profile page, low importance suggestion.</description>
+    <tags>cosmetic</tags>
+    <metadata>
+      <source>chat</source>
+    </metadata>
+  </ticket>
+</tickets>
