@@ -31,7 +31,13 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (resp.status === 204) return undefined as T;
   const body = await resp.json().catch(() => null);
   if (!resp.ok) {
-    const message = body?.error ?? `Request failed (${resp.status})`;
+    // A 5xx with no JSON body usually means the dev proxy could not reach the
+    // backend — surface a helpful message instead of a bare status code.
+    const message =
+      body?.error ??
+      (resp.status >= 500
+        ? "Cannot reach the API. Is the backend running on :3000?"
+        : `Request failed (${resp.status})`);
     throw new ApiError(message, body?.details ?? []);
   }
   return body as T;

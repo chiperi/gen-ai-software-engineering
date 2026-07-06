@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 
 type ToastKind = "success" | "error";
 interface ToastItem {
@@ -25,10 +25,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setTimeout(() => setItems((prev) => prev.filter((t) => t.id !== id)), 4000);
   }, []);
 
-  const api: ToastApi = {
-    success: (m) => push("success", m),
-    error: (m) => push("error", m),
-  };
+  // Stable identity so consumers' useCallback/useEffect deps don't change every
+  // render (otherwise a data-loading effect keyed on `toast` loops forever).
+  const api = useMemo<ToastApi>(
+    () => ({
+      success: (m) => push("success", m),
+      error: (m) => push("error", m),
+    }),
+    [push],
+  );
 
   return (
     <ToastContext.Provider value={api}>
