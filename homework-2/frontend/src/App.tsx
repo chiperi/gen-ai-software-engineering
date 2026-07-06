@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "r
 import { api, ApiError } from "./api/client";
 import { FilterBar } from "./components/Filters";
 import { ImportPanel } from "./components/ImportPanel";
+import { Pagination } from "./components/Pagination";
 import { TicketDetail } from "./components/TicketDetail";
 import { TicketForm } from "./components/TicketForm";
 import { TicketList } from "./components/TicketList";
@@ -16,6 +17,8 @@ function Dashboard() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Ticket | null>(null);
   const [detail, setDetail] = useState<Ticket | null>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -43,6 +46,16 @@ function Dashboard() {
       resolved: tickets.filter((t) => ["resolved", "closed"].includes(t.status)).length,
     };
   }, [tickets]);
+
+  // Pagination — client-side over the loaded (already filtered) tickets.
+  useEffect(() => {
+    setPage(1);
+  }, [filters, pageSize]);
+
+  const pageCount = Math.max(1, Math.ceil(tickets.length / pageSize));
+  const currentPage = Math.min(page, pageCount);
+  const start = (currentPage - 1) * pageSize;
+  const pageTickets = tickets.slice(start, start + pageSize);
 
   const handleCreate = async (input: TicketInput) => {
     try {
@@ -122,13 +135,26 @@ function Dashboard() {
       <p className="count muted">{tickets.length} ticket(s)</p>
 
       <TicketList
-        tickets={tickets}
+        tickets={pageTickets}
         loading={loading}
         onSelect={setDetail}
         onEdit={setEditing}
         onClassify={handleClassify}
         onDelete={handleDelete}
       />
+
+      {!loading && tickets.length > 0 && (
+        <Pagination
+          page={currentPage}
+          pageCount={pageCount}
+          pageSize={pageSize}
+          total={tickets.length}
+          rangeStart={start + 1}
+          rangeEnd={Math.min(start + pageSize, tickets.length)}
+          onPage={setPage}
+          onPageSize={setPageSize}
+        />
+      )}
 
       {formOpen && (
         <TicketForm onSubmit={handleCreate} onClose={() => setFormOpen(false)} />

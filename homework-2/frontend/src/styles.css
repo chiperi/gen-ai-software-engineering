@@ -171,6 +171,25 @@ textarea { resize: vertical; }
 .row-actions button { padding: 6px 11px; font-size: 0.82rem; }
 .confidence { margin-left: 9px; font-size: 0.72rem; color: var(--muted); background: var(--surface-2); padding: 1px 7px; border-radius: 6px; }
 
+/* Pagination */
+.pagination { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 16px; flex-wrap: wrap; }
+.pagination-info { display: flex; align-items: center; gap: 14px; font-size: 0.85rem; }
+.rows-per-page { display: flex; flex-direction: row; align-items: center; gap: 8px; color: var(--muted); font-size: 0.82rem; }
+.rows-per-page select { min-width: 72px; padding: 6px 9px; }
+.pagination-nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.page-btn {
+  min-width: 36px; padding: 7px 11px; font-size: 0.85rem;
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  border-radius: var(--radius-sm); transition: all 0.14s ease;
+}
+.page-btn:hover:not(:disabled):not(.page-btn-active) { background: var(--surface-hover); border-color: var(--border-strong); }
+.page-btn:disabled { opacity: 0.4; cursor: default; }
+.page-btn-active {
+  background: linear-gradient(135deg, #6e7bff, #7c5cff); color: #fff;
+  border-color: transparent; box-shadow: 0 4px 14px rgba(110, 123, 255, 0.4);
+}
+.page-ellipsis { color: var(--muted); padding: 0 4px; }
+
 /* Badges */
 .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.73rem; font-weight: 600; text-transform: capitalize; letter-spacing: 0.01em; background: var(--surface-2); color: var(--muted); border: 1px solid transparent; }
 .badge-priority-urgent { background: rgba(255, 107, 107, 0.14); color: #ff8585; border-color: rgba(255, 107, 107, 0.3); box-shadow: 0 0 14px rgba(255, 107, 107, 0.18); }
