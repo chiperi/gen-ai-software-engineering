@@ -57,6 +57,20 @@ function Dashboard() {
   const start = (currentPage - 1) * pageSize;
   const pageTickets = tickets.slice(start, start + pageSize);
 
+  const paginationBar =
+    !loading && tickets.length > 0 ? (
+      <Pagination
+        page={currentPage}
+        pageCount={pageCount}
+        pageSize={pageSize}
+        total={tickets.length}
+        rangeStart={start + 1}
+        rangeEnd={Math.min(start + pageSize, tickets.length)}
+        onPage={setPage}
+        onPageSize={setPageSize}
+      />
+    ) : null;
+
   const handleCreate = async (input: TicketInput) => {
     try {
       await api.create(input, true);
@@ -132,7 +146,7 @@ function Dashboard() {
       <ImportPanel onImported={load} />
       <FilterBar value={filters} onChange={setFilters} />
 
-      <p className="count muted">{tickets.length} ticket(s)</p>
+      {paginationBar}
 
       <TicketList
         tickets={pageTickets}
@@ -143,18 +157,7 @@ function Dashboard() {
         onDelete={handleDelete}
       />
 
-      {!loading && tickets.length > 0 && (
-        <Pagination
-          page={currentPage}
-          pageCount={pageCount}
-          pageSize={pageSize}
-          total={tickets.length}
-          rangeStart={start + 1}
-          rangeEnd={Math.min(start + pageSize, tickets.length)}
-          onPage={setPage}
-          onPageSize={setPageSize}
-        />
-      )}
+      {paginationBar}
 
       {formOpen && (
         <TicketForm onSubmit={handleCreate} onClose={() => setFormOpen(false)} />
