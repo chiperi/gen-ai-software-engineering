@@ -1,0 +1,20 @@
+[
+  {
+    "customer_id": "CUST-300",
+    "customer_email": "heidi@example.com",
+    "customer_name": "Heidi North",
+    "subject": "Security concern with 2FA",
+    "description": "My two-factor authentication code is not arriving, this is a security issue.",
+    "tags": ["2fa", "security"],
+    "metadata": {"source": "email", "device_type": "mobile"}
+  },
+  {
+    "customer_id": "CUST-301",
+    "customer_email": "ivan@example.com",
+    "customer_name": "Ivan Petrov",
+    "subject": "App crashes on export",
+    "description": "The application crashes with an exception every time I export a report.",
+    "tags": ["crash"],
+    "metadata": {"source": "api", "device_type": "desktop"}
+  }
+]

@@ -1,0 +1,4 @@
+customer_id,customer_email,customer_name,subject,description,tags,source,device_type
+CUST-9000,not-an-email,Bad Email,Broken row,This description is long enough to be valid.,bug,web_form,desktop
+CUST-9001,ok@example.com,No Subject,,This row has an empty subject which is invalid here.,bug,email,mobile
+CUST-9002,good@example.com,Good Row,Totally valid subject,This last row is completely valid and imports fine.,ok,web_form,desktop

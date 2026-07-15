@@ -1,0 +1,16 @@
+[
+  {
+    "customer_id": "CUST-700",
+    "customer_email": "not-an-email",
+    "customer_name": "Bad Email",
+    "subject": "Invalid email row",
+    "description": "This row has an invalid email address and should fail validation."
+  },
+  {
+    "customer_id": "CUST-701",
+    "customer_email": "good@example.com",
+    "customer_name": "Good Row",
+    "subject": "Valid row here",
+    "description": "This row is valid and should be imported without any problems at all."
+  }
+]

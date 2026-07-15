@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tickets>
+  <ticket>
+    <customer_id>CUST-9200</customer_id>
+    <customer_email>bad-email</customer_email>
+    <customer_name>Bad</customer_name>
+    <subject>Bad email row</subject>
+    <description>This row has an invalid email and should fail validation cleanly.</description>
+  </ticket>
+  <ticket>
+    <customer_id>CUST-9201</customer_id>
+    <customer_email>ok@example.com</customer_email>
+    <customer_name>Good</customer_name>
+    <subject>Valid xml row</subject>
+    <description>This XML row is valid and should be imported successfully as expected.</description>
+  </ticket>
+</tickets>

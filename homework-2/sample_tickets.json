@@ -1,0 +1,297 @@
+[
+  {
+    "customer_id": "CUST-1000",
+    "customer_email": "user0@example.com",
+    "customer_name": "Alice Doe",
+    "subject": "Cannot log in to my account",
+    "description": "I can't access my account, my password reset link is broken. This is critical.",
+    "tags": [
+      "login",
+      "password"
+    ],
+    "metadata": {
+      "source": "web_form",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1001",
+    "customer_email": "user1@example.com",
+    "customer_name": "Bob Smith",
+    "subject": "2FA codes not arriving",
+    "description": "My two-factor authentication codes never arrive, this is a security problem.",
+    "tags": [
+      "2fa",
+      "security"
+    ],
+    "metadata": {
+      "source": "email",
+      "device_type": "mobile"
+    }
+  },
+  {
+    "customer_id": "CUST-1002",
+    "customer_email": "user2@example.com",
+    "customer_name": "Carol Jones",
+    "subject": "Locked out after password change",
+    "description": "I changed my password and now I am locked out and cannot sign in.",
+    "tags": [
+      "password",
+      "login"
+    ],
+    "metadata": {
+      "source": "chat",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1003",
+    "customer_email": "user3@example.com",
+    "customer_name": "Dave Lee",
+    "subject": "App crashes on report export",
+    "description": "The application crashes with an exception every time I export a report.",
+    "tags": [
+      "crash",
+      "error"
+    ],
+    "metadata": {
+      "source": "api",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1004",
+    "customer_email": "user4@example.com",
+    "customer_name": "Eve Adams",
+    "subject": "500 error on dashboard",
+    "description": "The dashboard shows a 500 server error and the whole page is down.",
+    "tags": [
+      "error",
+      "down"
+    ],
+    "metadata": {
+      "source": "web_form",
+      "device_type": "tablet"
+    }
+  },
+  {
+    "customer_id": "CUST-1005",
+    "customer_email": "user5@example.com",
+    "customer_name": "Frank Moore",
+    "subject": "Sync fails intermittently",
+    "description": "Data sync fails with a timeout, this is blocking my team from working.",
+    "tags": [
+      "timeout",
+      "blocking"
+    ],
+    "metadata": {
+      "source": "email",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1006",
+    "customer_email": "user6@example.com",
+    "customer_name": "Grace Kim",
+    "subject": "Refund for double charge",
+    "description": "I was charged twice for my subscription invoice, please issue a refund asap.",
+    "tags": [
+      "refund",
+      "invoice",
+      "asap"
+    ],
+    "metadata": {
+      "source": "email",
+      "device_type": "mobile"
+    }
+  },
+  {
+    "customer_id": "CUST-1007",
+    "customer_email": "user7@example.com",
+    "customer_name": "Heidi North",
+    "subject": "Invoice missing line items",
+    "description": "My latest invoice is missing several line items and the payment total is wrong.",
+    "tags": [
+      "invoice",
+      "payment"
+    ],
+    "metadata": {
+      "source": "web_form",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1008",
+    "customer_email": "user8@example.com",
+    "customer_name": "Ivan Petrov",
+    "subject": "Update credit card on file",
+    "description": "I need to update the credit card used for my subscription billing.",
+    "tags": [
+      "credit card",
+      "billing"
+    ],
+    "metadata": {
+      "source": "phone",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1009",
+    "customer_email": "user9@example.com",
+    "customer_name": "Judy Blume",
+    "subject": "Please add dark mode",
+    "description": "It would be nice to please add a dark mode theme, a great enhancement suggestion.",
+    "tags": [
+      "feature",
+      "suggestion"
+    ],
+    "metadata": {
+      "source": "chat",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1010",
+    "customer_email": "user10@example.com",
+    "customer_name": "Alice Doe",
+    "subject": "Bulk export feature",
+    "description": "Feature request: please add a bulk export option, it would improve my workflow.",
+    "tags": [
+      "feature request",
+      "improve"
+    ],
+    "metadata": {
+      "source": "web_form",
+      "device_type": "tablet"
+    }
+  },
+  {
+    "customer_id": "CUST-1011",
+    "customer_email": "user11@example.com",
+    "customer_name": "Bob Smith",
+    "subject": "Keyboard shortcuts wish",
+    "description": "I wish there were keyboard shortcuts, this enhancement would be nice to have.",
+    "tags": [
+      "enhancement",
+      "wish"
+    ],
+    "metadata": {
+      "source": "api",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1012",
+    "customer_email": "user12@example.com",
+    "customer_name": "Carol Jones",
+    "subject": "Bug: totals miscalculated",
+    "description": "There is a bug, the totals are miscalculated. Steps to reproduce are attached.",
+    "tags": [
+      "bug",
+      "steps to reproduce"
+    ],
+    "metadata": {
+      "source": "web_form",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1013",
+    "customer_email": "user13@example.com",
+    "customer_name": "Dave Lee",
+    "subject": "Regression after update",
+    "description": "A regression appeared after the last update, this defect blocks checkout.",
+    "tags": [
+      "regression",
+      "defect",
+      "blocking"
+    ],
+    "metadata": {
+      "source": "email",
+      "device_type": "mobile"
+    }
+  },
+  {
+    "customer_id": "CUST-1014",
+    "customer_email": "user14@example.com",
+    "customer_name": "Eve Adams",
+    "subject": "Glitch in date picker",
+    "description": "Minor glitch in the date picker, a cosmetic bug of low importance.",
+    "tags": [
+      "glitch",
+      "bug",
+      "cosmetic"
+    ],
+    "metadata": {
+      "source": "chat",
+      "device_type": "tablet"
+    }
+  },
+  {
+    "customer_id": "CUST-1015",
+    "customer_email": "user15@example.com",
+    "customer_name": "Frank Moore",
+    "subject": "General question about limits",
+    "description": "I have a general question about the usage limits on my current plan.",
+    "tags": [],
+    "metadata": {
+      "source": "web_form",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1016",
+    "customer_email": "user16@example.com",
+    "customer_name": "Grace Kim",
+    "subject": "How do I invite teammates",
+    "description": "Can you explain how I invite teammates to my workspace? Thanks in advance.",
+    "tags": [],
+    "metadata": {
+      "source": "email",
+      "device_type": "mobile"
+    }
+  },
+  {
+    "customer_id": "CUST-1017",
+    "customer_email": "user17@example.com",
+    "customer_name": "Heidi North",
+    "subject": "Feedback on onboarding",
+    "description": "Just sharing some general feedback about the onboarding experience overall.",
+    "tags": [],
+    "metadata": {
+      "source": "chat",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1018",
+    "customer_email": "user18@example.com",
+    "customer_name": "Ivan Petrov",
+    "subject": "Production is down now",
+    "description": "Production is down and this is a critical outage affecting all our users.",
+    "tags": [
+      "production down",
+      "critical"
+    ],
+    "metadata": {
+      "source": "phone",
+      "device_type": "desktop"
+    }
+  },
+  {
+    "customer_id": "CUST-1019",
+    "customer_email": "user19@example.com",
+    "customer_name": "Judy Blume",
+    "subject": "Important billing discrepancy",
+    "description": "Important: there is a billing discrepancy on my invoice that is blocking payroll.",
+    "tags": [
+      "important",
+      "invoice",
+      "blocking"
+    ],
+    "metadata": {
+      "source": "email",
+      "device_type": "desktop"
+    }
+  }
+]

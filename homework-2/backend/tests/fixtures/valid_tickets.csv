@@ -1,0 +1,4 @@
+customer_id,customer_email,customer_name,subject,description,tags,source,device_type
+CUST-100,bob@example.com,Bob Smith,Cannot access dashboard,The production dashboard is down and I get a 500 error every time.,"login,urgent",web_form,desktop
+CUST-101,carol@example.com,Carol Jones,Refund for double charge,I was charged twice for my subscription invoice this month please refund.,billing,email,mobile
+CUST-102,dave@example.com,Dave Lee,Feature request dark mode,It would be nice to please add a dark mode theme to the settings page.,feature,chat,tablet
