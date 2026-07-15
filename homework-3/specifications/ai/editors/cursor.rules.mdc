@@ -1,0 +1,28 @@
+---
+description: Virtual Card Lifecycle — FinTech-safe defaults for Cursor
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Cursor rules — Virtual Card Lifecycle
+
+Source of truth: `specifications/ai/AGENTS.md` + `specifications/product/specs/001-feature/spec.md`.
+This file is the condensed, always-on guardrail set. When in doubt, open the spec/ADRs.
+
+## Non-negotiables (regulated FinTech)
+- Money = integer **minor units** / `Decimal`, one currency per card, compared in minor units. No `float`.
+- Only `network_token` + `last4` — **never** PAN/CVV anywhere (code, logs, traces, tests, URLs).
+- State changes: single state-machine fn, legal transitions only (BR-001/002), `CLOSED` terminal.
+- Writes: **idempotent** (`Idempotency-Key`) + **optimistic concurrency** (`If-Match`/ETag).
+- Every state change → one **audit event** in the same transaction (outbox); no exceptions.
+- **Deny by default**, separation of duties; SCA + role for close / lifting compliance freeze.
+- **Fail closed** on ambiguity or dependency loss; stable error codes; no sensitive detail in errors.
+
+## Style
+- `mypy --strict`, Pydantic at boundaries, UTC ISO-8601, opaque UUIDv7/ULID ids.
+- Conventional Commits + task id (`feat: … (T-0xx)`); one task per PR from `delivery/tasks.md`.
+- Propose a test (mapped to an FR / edge case E-xx) with nontrivial code; self-verify ruff→mypy→pytest.
+
+## Avoid
+Bypassing idempotency/concurrency/audit/state-machine; scope creep; silent contract/requirement
+changes (needs an ADR); secrets in code; UPDATE/DELETE on `audit_events`.

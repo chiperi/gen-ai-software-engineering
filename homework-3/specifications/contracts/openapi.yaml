@@ -1,0 +1,240 @@
+openapi: 3.1.0
+info:
+  title: Virtual Card Lifecycle API
+  version: 0.1.0
+  description: >-
+    Control-plane for the virtual card lifecycle (issue, activate, freeze/unfreeze, limits,
+    transactions, close) plus a hot-path authorization `evaluate`. Derived from
+    product/specs/001-feature/spec.md. Money is integer minor units; PAN/CVV never appear here.
+servers:
+  - url: https://api.example.com/cards/v1
+tags:
+  - name: lifecycle
+  - name: limits
+  - name: transactions
+  - name: authorization
+
+# All state-changing operations require Idempotency-Key (FR-060/ADR-0003) and, except issue,
+# If-Match with the current version for optimistic concurrency (FR-061/ADR-0004).
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer }
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: { type: string, minLength: 8, maxLength: 128 }
+      description: Client-generated key; replay returns the original result (at-most-once effect).
+    IfMatch:
+      name: If-Match
+      in: header
+      required: true
+      schema: { type: string }
+      description: Current card version (ETag). Stale value ⇒ 409 version_conflict.
+  schemas:
+    Money:
+      type: object
+      required: [amount_minor, currency]
+      properties:
+        amount_minor: { type: integer, format: int64, minimum: 0, description: Minor units (e.g. cents). No floats. }
+        currency: { type: string, pattern: '^[A-Z]{3}$', description: ISO-4217; equals card currency. }
+    Limits:
+      type: object
+      description: All three optional; when set, per_transaction ≤ daily ≤ monthly (BR-009).
+      properties:
+        per_transaction: { $ref: '#/components/schemas/Money' }
+        daily: { $ref: '#/components/schemas/Money' }
+        monthly: { $ref: '#/components/schemas/Money' }
+    Card:
+      type: object
+      properties:
+        card_id: { type: string, description: Opaque UUIDv7/ULID (BR-023). }
+        state: { type: string, enum: [CREATED, ACTIVE, FROZEN, CLOSED] }
+        freeze_type: { type: [string, "null"], enum: [user, compliance, null] }
+        network_token: { type: string, description: Non-sensitive surrogate for the PAN. }
+        last4: { type: string, pattern: '^[0-9]{4}$' }
+        currency: { type: string, pattern: '^[A-Z]{3}$' }
+        limits: { $ref: '#/components/schemas/Limits' }
+        version: { type: integer, description: Optimistic-concurrency version (ETag). }
+        created_at: { type: string, format: date-time }
+      required: [card_id, state, network_token, last4, currency, version]
+    Transaction:
+      type: object
+      properties:
+        txn_id: { type: string }
+        amount: { $ref: '#/components/schemas/Money' }
+        merchant_descriptor: { type: string }
+        status: { type: string, enum: [authorized, cleared, reversed, refunded, declined] }
+        occurred_at: { type: string, format: date-time }
+      required: [txn_id, amount, status, occurred_at]
+    EvaluateRequest:
+      type: object
+      required: [amount]
+      properties:
+        amount: { $ref: '#/components/schemas/Money' }
+        merchant_descriptor: { type: string }
+    EvaluateDecision:
+      type: object
+      required: [decision]
+      properties:
+        decision: { type: string, enum: [approve, decline] }
+        reason_code:
+          type: [string, "null"]
+          enum: [card_not_active, per_transaction_exceeded, daily_exceeded, monthly_exceeded, null]
+    Error:
+      type: object
+      description: Stable machine-readable code is primary; HTTP status is secondary (spec §7.4).
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          enum: [kyc_required, illegal_transition, invalid_limits, compliance_freeze_locked,
+                 version_conflict, sca_required, idempotency_key_reuse, forbidden,
+                 invalid_cursor, terminal_state, dependency_unavailable]
+        message: { type: string, description: Non-sensitive; no PAN/PII/stack traces. }
+        correlation_id: { type: string }
+  responses:
+    Conflict: { description: Illegal transition or version conflict, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+    Unprocessable: { description: Validation error, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+    Forbidden: { description: AuthZ / compliance-lock, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+
+security:
+  - bearerAuth: []
+
+paths:
+  /cards:
+    post:
+      tags: [lifecycle]
+      summary: Issue a virtual card (FR-001/002/003)
+      parameters: [ { $ref: '#/components/parameters/IdempotencyKey' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [funding_account_id, currency]
+              properties:
+                funding_account_id: { type: string }
+                currency: { type: string, pattern: '^[A-Z]{3}$' }
+      responses:
+        '201': { description: Created (CREATED state), content: { application/json: { schema: { $ref: '#/components/schemas/Card' } } } }
+        '403': { $ref: '#/components/responses/Forbidden' }   # kyc_required (FR-002)
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '503': { description: Vault unavailable — fail closed (E-11), content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+
+  /cards/{card_id}:
+    get:
+      tags: [lifecycle]
+      summary: Read a card (returns ETag = version)
+      parameters: [ { name: card_id, in: path, required: true, schema: { type: string } } ]
+      responses:
+        '200':
+          description: OK
+          headers: { ETag: { schema: { type: string }, description: Current version for If-Match. } }
+          content: { application/json: { schema: { $ref: '#/components/schemas/Card' } } }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { description: Not found }
+
+  /cards/{card_id}/activation:
+    post:
+      tags: [lifecycle]
+      summary: Activate a CREATED card (FR-010/011)
+      parameters:
+        - { name: card_id, in: path, required: true, schema: { type: string } }
+        - { $ref: '#/components/parameters/IdempotencyKey' }
+        - { $ref: '#/components/parameters/IfMatch' }
+      responses:
+        '200': { description: Now ACTIVE, content: { application/json: { schema: { $ref: '#/components/schemas/Card' } } } }
+        '409': { $ref: '#/components/responses/Conflict' }     # illegal_transition / version_conflict
+
+  /cards/{card_id}/freeze:
+    post:
+      tags: [lifecycle]
+      summary: Freeze a card (FR-020/024) — user or compliance per caller role
+      parameters:
+        - { name: card_id, in: path, required: true, schema: { type: string } }
+        - { $ref: '#/components/parameters/IdempotencyKey' }
+        - { $ref: '#/components/parameters/IfMatch' }
+      requestBody:
+        content: { application/json: { schema: { type: object, properties: { reason: { type: string } } } } }
+      responses:
+        '200': { description: Now FROZEN, content: { application/json: { schema: { $ref: '#/components/schemas/Card' } } } }
+        '409': { $ref: '#/components/responses/Conflict' }
+
+  /cards/{card_id}/unfreeze:
+    post:
+      tags: [lifecycle]
+      summary: Unfreeze (FR-022/023) — compliance freeze not liftable by user
+      parameters:
+        - { name: card_id, in: path, required: true, schema: { type: string } }
+        - { $ref: '#/components/parameters/IdempotencyKey' }
+        - { $ref: '#/components/parameters/IfMatch' }
+      responses:
+        '200': { description: Now ACTIVE, content: { application/json: { schema: { $ref: '#/components/schemas/Card' } } } }
+        '403': { $ref: '#/components/responses/Forbidden' }    # compliance_freeze_locked
+        '409': { $ref: '#/components/responses/Conflict' }
+
+  /cards/{card_id}/limits:
+    put:
+      tags: [limits]
+      summary: Set spending limits (FR-030/033, BR-006/009)
+      parameters:
+        - { name: card_id, in: path, required: true, schema: { type: string } }
+        - { $ref: '#/components/parameters/IdempotencyKey' }
+        - { $ref: '#/components/parameters/IfMatch' }
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/Limits' } } }
+      responses:
+        '200': { description: Limits updated, content: { application/json: { schema: { $ref: '#/components/schemas/Card' } } } }
+        '422': { $ref: '#/components/responses/Unprocessable' } # invalid_limits (E-06/07/20)
+        '409': { $ref: '#/components/responses/Conflict' }
+
+  /cards/{card_id}/transactions:
+    get:
+      tags: [transactions]
+      summary: List transactions, newest-first, cursor-paginated (FR-040/041)
+      parameters:
+        - { name: card_id, in: path, required: true, schema: { type: string } }
+        - { name: cursor, in: query, required: false, schema: { type: string } }
+        - { name: limit, in: query, required: false, schema: { type: integer, minimum: 1, maximum: 100, default: 50 } }
+      responses:
+        '200':
+          description: A page (possibly empty, E-13)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items: { type: array, items: { $ref: '#/components/schemas/Transaction' } }
+                  next_cursor: { type: [string, "null"] }
+        '400': { description: invalid_cursor (E-18), content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /cards/{card_id}/closure:
+    post:
+      tags: [lifecycle]
+      summary: Permanently close a card (FR-050/052) — requires SCA step-up
+      parameters:
+        - { name: card_id, in: path, required: true, schema: { type: string } }
+        - { $ref: '#/components/parameters/IdempotencyKey' }
+        - { $ref: '#/components/parameters/IfMatch' }
+        - { name: X-SCA-Token, in: header, required: true, schema: { type: string }, description: Step-up auth proof. }
+      responses:
+        '200': { description: Now CLOSED (irreversible), content: { application/json: { schema: { $ref: '#/components/schemas/Card' } } } }
+        '401': { description: sca_required (E-14), content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+        '409': { $ref: '#/components/responses/Conflict' }
+
+  /cards/{card_id}/authorizations/evaluate:
+    post:
+      tags: [authorization]
+      summary: Hot-path decision — state + limits only, read-only, fail-closed (FR-031/064, NFR-006)
+      description: Called by the card network. Never moves money. Defaults to decline on ambiguity.
+      parameters: [ { name: card_id, in: path, required: true, schema: { type: string } } ]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/EvaluateRequest' } } }
+      responses:
+        '200': { description: Decision, content: { application/json: { schema: { $ref: '#/components/schemas/EvaluateDecision' } } } }

@@ -1,0 +1,13 @@
+name: openapi-validation
+on: [push, pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: spectral lint (FF-005)
+        run: npx @stoplight/spectral-cli lint contracts/openapi.yaml -r quality/spectral.yaml
+      - name: breaking-change check (oasdiff)
+        run: |
+          git show origin/${{ github.base_ref || 'main' }}:specifications/contracts/openapi.yaml > /tmp/base.yaml 2>/dev/null || cp contracts/openapi.yaml /tmp/base.yaml
+          npx oasdiff breaking /tmp/base.yaml contracts/openapi.yaml

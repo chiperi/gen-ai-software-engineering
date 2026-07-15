@@ -1,0 +1,2 @@
+# mise / asdf — pin the runtime (stack: python); identical across every OS
+python 3.12.0
