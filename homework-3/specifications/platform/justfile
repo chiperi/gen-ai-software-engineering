@@ -1,0 +1,26 @@
+# Cross-platform task runner (just). Mirrors the CI quality gates locally.
+set shell := ["bash", "-cu"]
+
+install:
+    pip install --upgrade pip && pip install -e ".[dev]" && pre-commit install
+
+lint:
+    ruff check . && ruff format --check .
+
+type:
+    mypy --strict .
+
+test:
+    pytest -q --cov --cov-report=term-missing --cov-fail-under=85
+
+contracts:
+    spectral lint contracts/openapi.yaml && schemathesis run contracts/openapi.yaml --base-url http://localhost:8000
+
+security:
+    bandit -q -r . && pip-audit && gitleaks detect --no-banner
+
+# Full local gate (run before pushing)
+check: lint type test contracts security
+
+run:
+    uvicorn app.main:app --reload

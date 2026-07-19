@@ -1,0 +1,5 @@
+# Aider config — Virtual Card Lifecycle
+# Conventions: specifications/ai/editors/aider.CONVENTIONS.md
+auto-commits: false
+lint-cmd: "ruff check --fix"
+test-cmd: "pytest -q"

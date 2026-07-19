@@ -1,0 +1,22 @@
+name: security
+on: [push, pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]" bandit pip-audit
+      - name: SAST (bandit, FF-004)
+        run: bandit -q -r . -x tests
+      - name: SCA (pip-audit — 0 critical/high, NFR-004)
+        run: pip-audit
+      - name: secret-scan (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+      - name: no-PAN-leak (FF-006)
+        run: |
+          if git grep -nE "[0-9]{13,19}" -- '*.py' '*.json' | grep -vE "network_token|last4|example"; then
+            echo "possible PAN pattern in tracked files"; exit 1
+          fi

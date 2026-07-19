@@ -1,0 +1,69 @@
+asyncapi: 3.0.0
+info:
+  title: Virtual Card Lifecycle — events
+  version: 0.1.0
+  description: >-
+    Domain events emitted via the transactional outbox (ADR-0002) and the inbound fraud event the
+    service consumes. Every payload carries correlation/idempotency ids; consumers dedupe by event_id.
+    No PAN/CVV/PII in any payload (P2, BR-020).
+
+defaultContentType: application/json
+
+channels:
+  cardLifecycle:
+    address: card.lifecycle.v1
+    description: Outbound audit/domain events for every state change (one per change, FR-062).
+    messages:
+      cardCreated: { $ref: '#/components/messages/CardEvent' }
+      cardActivated: { $ref: '#/components/messages/CardEvent' }
+      cardFrozen: { $ref: '#/components/messages/CardEvent' }
+      cardUnfrozen: { $ref: '#/components/messages/CardEvent' }
+      cardLimitsUpdated: { $ref: '#/components/messages/CardEvent' }
+      cardClosed: { $ref: '#/components/messages/CardEvent' }
+  fraudSuspected:
+    address: fraud.suspected.v1
+    description: Inbound event that triggers an idempotent compliance freeze (FR-025, BR-005).
+    messages:
+      fraudSuspected: { $ref: '#/components/messages/FraudSuspected' }
+
+operations:
+  publishCardEvent:
+    action: send
+    channel: { $ref: '#/channels/cardLifecycle' }
+    summary: Service emits a lifecycle event after each committed state change.
+  onFraudSuspected:
+    action: receive
+    channel: { $ref: '#/channels/fraudSuspected' }
+    summary: Service consumes fraud events and applies a compliance freeze (idempotent by event_id).
+
+components:
+  messages:
+    CardEvent:
+      name: CardEvent
+      payload:
+        type: object
+        required: [event_id, type, card_id, occurred_at, actor_role, before_state, after_state]
+        properties:
+          event_id: { type: string, description: Idempotency/dedup key. }
+          type:
+            type: string
+            enum: [card.created, card.activated, card.frozen, card.unfrozen, card.limits_updated, card.closed]
+          card_id: { type: string }
+          actor_role: { type: string, enum: [user, ops, compliance, fraud_system] }
+          before_state: { type: [string, "null"], enum: [CREATED, ACTIVE, FROZEN, CLOSED, null] }
+          after_state: { type: string, enum: [CREATED, ACTIVE, FROZEN, CLOSED] }
+          freeze_type: { type: [string, "null"], enum: [user, compliance, null] }
+          reason: { type: [string, "null"] }
+          correlation_id: { type: string }
+          occurred_at: { type: string, format: date-time }
+    FraudSuspected:
+      name: FraudSuspected
+      payload:
+        type: object
+        required: [event_id, card_id, occurred_at]
+        properties:
+          event_id: { type: string, description: Dedup key — same id ⇒ one freeze (E-17). }
+          card_id: { type: string }
+          risk_score: { type: number, minimum: 0, maximum: 1 }
+          reason: { type: string }
+          occurred_at: { type: string, format: date-time }

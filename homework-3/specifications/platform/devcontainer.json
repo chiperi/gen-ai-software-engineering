@@ -1,0 +1,13 @@
+{
+  "name": "virtual-card-lifecycle",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "postCreateCommand": "bash platform/scripts/setup.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["charliermarsh.ruff", "ms-python.mypy-type-checker"]
+    }
+  }
+}

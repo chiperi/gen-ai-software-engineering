@@ -1,0 +1,24 @@
+# Same checks locally, before each commit. Install: pre-commit install
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        args: [--strict]
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: no-pan
+        name: no-PAN-leak (constitution P2 / FF-006)
+        entry: bash -c 'if git grep -nE "[0-9]{13,19}" -- "*.py" "*.md" "*.json" | grep -vE "network_token|last4|example"; then echo "possible PAN in tracked files"; exit 1; fi'
+        language: system
+        pass_filenames: false
