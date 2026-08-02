@@ -21,6 +21,14 @@ DEFAULT_WORD_COUNT = 30
 
 def _read_words(word_count: int = DEFAULT_WORD_COUNT) -> str:
     """Return the first `word_count` whitespace-separated words of the file."""
+    # A URI template segment (`lorem://text/7`) is a string at the transport level.
+    # Coerce before comparing or slicing: an uncoerced str slips past the `< 1`
+    # check with an opaque TypeError instead of the documented message.
+    try:
+        word_count = int(word_count)
+    except (TypeError, ValueError):
+        raise ValueError("word_count must be a positive integer") from None
+
     if word_count < 1:
         raise ValueError("word_count must be a positive integer")
 
