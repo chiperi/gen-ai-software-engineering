@@ -89,6 +89,10 @@ Expected — note `"name":"lorem"`:
 [`.mcp.json`](.mcp.json) is **project-scoped**: Claude Code picks it up automatically
 when started from this directory.
 
+> The top-level key must be **`mcpServers`**. VS Code's own MCP config uses `servers`
+> instead — a file in that shape is still valid JSON, so Claude Code loads it, finds no
+> `mcpServers` object, and registers nothing without reporting an error.
+
 ```bash
 claude
 ```
@@ -206,6 +210,7 @@ Prompts that produce the results captured in [`docs/screenshots/`](docs/screensh
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
+| `/mcp` lists no project servers at all, and no error is shown | `.mcp.json` written in VS Code format — top-level key `servers` instead of `mcpServers` | rename the key to `mcpServers` and restart Claude Code |
 | `lorem` shows as failed in `/mcp` | Claude Code started outside `homework-5/` | restart `claude` from this directory |
 | `No such file or directory: server.py` | same as above — `--directory` is relative | as above |
 | `ModuleNotFoundError: fastmcp` | deps not installed | `uv sync --directory custom-mcp-server` |
