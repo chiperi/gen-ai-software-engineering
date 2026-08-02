@@ -212,4 +212,5 @@ Prompts that produce the results captured in [`docs/screenshots/`](docs/screensh
 | `Source file not found: .../lorem-ipsum.md` | file deleted or renamed | restore `custom-mcp-server/lorem-ipsum.md` |
 | `word_count must be a positive integer` | asked for 0 or fewer words | pass a value ≥ 1 — this error is intentional |
 | GitHub/Notion/Jira server unauthorized | env var unset or token expired | re-export the variable (step 2), then restart Claude Code |
+| GitHub server fails every call with `HTTP 400` | trailing newline or space in `GITHUB_MCP_PAT` — the value is interpolated verbatim into the `Authorization` header, so the header itself is malformed | reveal it with `printf %s "$GITHUB_MCP_PAT" \| od -c \| tail -2` (look for a trailing `\n` or space), then re-export the token without it |
 | Env var changes have no effect | Claude Code resolves `${VAR}` at launch | fully restart Claude Code, not just `/mcp` |
