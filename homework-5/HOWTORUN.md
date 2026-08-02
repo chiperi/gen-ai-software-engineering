@@ -46,7 +46,8 @@ secrets**. Export these in your shell profile (`~/.zshrc`) before starting Claud
 |----------|---------|-----------------|
 | `GITHUB_MCP_PAT` | GitHub | GitHub → Settings → Developer settings → Personal access tokens |
 | `NOTION_TOKEN` | Notion | Notion → Settings → Connections → your integration |
-| `JIRA_URL`, `CONFLUENCE_URL` | Atlassian | e.g. `https://your-site.atlassian.net` |
+| `JIRA_URL` | Atlassian | your site root — `https://your-site.atlassian.net` |
+| `CONFLUENCE_URL` | Atlassian | the same site **plus `/wiki`** — `https://your-site.atlassian.net/wiki` |
 | `ATLASSIAN_EMAIL` | Atlassian | your Atlassian account email |
 | `ATLASSIAN_API_TOKEN` | Atlassian | id.atlassian.com → Security → API tokens |
 
@@ -54,6 +55,11 @@ secrets**. Export these in your shell profile (`~/.zshrc`) before starting Claud
 export GITHUB_MCP_PAT="ghp_..."
 export NOTION_TOKEN="ntn_..."
 ```
+
+> The two Atlassian URLs are **not** interchangeable. Confluence Cloud serves its REST
+> API under `/wiki`, so a `CONFLUENCE_URL` set to the bare site root resolves to the
+> wrong base path and every Confluence call fails — while Jira, which does use the bare
+> root, keeps working and hides the cause.
 
 > The Filesystem server needs no credentials. Its allowed root is the last argument in
 > `.mcp.json` — `${HOME}/Projects/set_uni_ai`. Change that path to scope it elsewhere;
@@ -211,5 +217,6 @@ Prompts that produce the results captured in [`docs/screenshots/`](docs/screensh
 | `ModuleNotFoundError: fastmcp` | deps not installed | `uv sync --directory custom-mcp-server` |
 | `Source file not found: .../lorem-ipsum.md` | file deleted or renamed | restore `custom-mcp-server/lorem-ipsum.md` |
 | `word_count must be a positive integer` | asked for 0 or fewer words | pass a value ≥ 1 — this error is intentional |
+| Jira tools work but every Confluence tool fails | `CONFLUENCE_URL` missing the `/wiki` suffix — Jira uses the site root, Confluence does not | append `/wiki`, then restart Claude Code |
 | GitHub/Notion/Jira server unauthorized | env var unset or token expired | re-export the variable (step 2), then restart Claude Code |
 | Env var changes have no effect | Claude Code resolves `${VAR}` at launch | fully restart Claude Code, not just `/mcp` |
