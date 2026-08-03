@@ -1,0 +1,10 @@
+{
+  "name": "homework-4-cart",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "start": "node src/server.js",
+    "pipeline": "bash scripts/run-pipeline.sh"
+  }
+}
