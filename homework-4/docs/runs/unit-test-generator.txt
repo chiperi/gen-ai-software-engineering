@@ -1,0 +1,17 @@
+Наявні тестові файли (`tests/cart.test.js`, `tests/coupons.test.js`) не змінені — з'явились лише два нових `.generated.test.js` файли та `test-report.md`.
+
+## Підсумок
+
+Прочитав `agents/unit-test-generator.agent.md` і skill `skills/unit-tests-FIRST.md`, потім `fix-summary.md` (межа обсягу: `src/cart.js`, `src/coupons.js`), план і наявні тести, щоб не дублювати вже покрите.
+
+Створив 10 нових тестів у двох файлах:
+- **`tests/cart.generated.test.js`** — межа `quantity=0`/`subtotal=0`, некоректний тип для `percent`, регресії `BUG-001`/`BUG-002` з ідентифікатором у назві.
+- **`tests/coupons.generated.test.js`** — межі довжини коду купона (мін/макс/порожньо), нижній регістр як недопустиме значення, регресія `VULN-001` на іншому векторі обходу каталогу (щоб не дублювати вже наявний тест з тим самим payload).
+
+`npm test`: було 12/12 → стало **22/22, 0 fail**. Перевірив незалежність (`--test-name-pattern`) і повторюваність (два прогони поспіль дали однаковий результат); найповільніший тест — 0.6 мс.
+
+Записав звіт `context/bugs/001/test-report.md` за контрактом ролі з машиночитним блоком:
+```
+GATE: PASS
+```
+(`TESTS_FAILED: 0`, `FIRST_VIOLATIONS: 0`). Код у `src/` і наявні тести не чіпав.

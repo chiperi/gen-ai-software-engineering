@@ -1,0 +1,7 @@
+Готово. Усі три зміни з `implementation-plan.md` застосовано послідовно, тести після кожної правки зафіксовано:
+
+- Change 1 (BUG-001, `src/cart.js:8`) → 6 pass / 6 fail
+- Change 2 (BUG-002, `src/cart.js:13-18`) → 9 pass / 3 fail
+- Change 3 (VULN-001, `src/coupons.js:7-15`) → 12 pass / 0 fail
+
+Базлайн 5/7 → фінал 12/0, збігається з `Expected end state` плану. Відхилень немає, змінено лише `src/cart.js` і `src/coupons.js` (більше нічого поза планом). Звіт `context/bugs/001/fix-summary.md` записано з `MACHINE-READABLE VERDICT`: `OVERALL_STATUS: SUCCESS`, `GATE: PASS`.
