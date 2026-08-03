@@ -1,0 +1,12 @@
+[project]
+name = "lorem-mcp-server"
+version = "0.1.0"
+description = "Custom FastMCP server exposing lorem-ipsum.md as an MCP resource and a `read` tool"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=2.0.0",
+]
+
+[tool.uv]
+# server.py is a standalone script, not an installable package — skip building it.
+package = false
