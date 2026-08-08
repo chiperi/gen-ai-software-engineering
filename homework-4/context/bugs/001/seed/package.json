@@ -1,0 +1,17 @@
+{
+  "name": "homework-4-cart-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Small cart service — the application the four-agent pipeline operates on",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test \"tests/**/*.test.js\""
+  },
+  "dependencies": {
+    "semver": "5.7.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
